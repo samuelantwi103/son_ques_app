@@ -144,7 +144,7 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
                             AnimatedContainer(
                               duration: Duration(seconds: 1),
                               height: 0.3 * MediaQuery.of(context).size.height,
-                              child: Image.asset("assets/sonmit.jpg"),
+                              child: Image.asset("assets/sonmit-transparent.png"),
                             ),
                             const SizedBox(height: 32),
                             TextFormField(

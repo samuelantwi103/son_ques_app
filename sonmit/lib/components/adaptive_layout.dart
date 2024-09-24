@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
+import 'package:sonmit/pages/student/secondarybody.dart';
 
 class AppLayout extends StatefulWidget {
   final List<Map<String, dynamic>> destinationData;
@@ -38,7 +39,7 @@ class _AppLayoutState extends State<AppLayout> {
 
     return AdaptiveLayout(
       transitionDuration: Duration(milliseconds: 500),
-      secondaryBody: !widget.showSecondaryBody
+      secondaryBody: !widget.showSecondaryBody || widget.secondaryChildren.isEmpty
           ? null
           : SlotLayout(config: {
               Breakpoints.medium: SlotLayout.from(
