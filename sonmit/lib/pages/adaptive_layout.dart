@@ -59,7 +59,7 @@ class _AppLayoutState extends State<AppLayout> {
   @override
   Widget build(BuildContext context) {
     return AdaptiveLayout(
-      transitionDuration: Duration(seconds: 1),
+      transitionDuration: Duration(milliseconds: 500),
       primaryNavigation: SlotLayout(
         config: {
           Breakpoints.medium: SlotLayout.from(

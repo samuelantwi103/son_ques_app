@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "313740689842",
+    "project_id": "sonmit-app",
+    "storage_bucket": "sonmit-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:313740689842:android:ee59f6608c7dfd4393a4ab",
+        "android_client_info": {
+          "package_name": "com.son.sonmit"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAYaRq-KinnH6oo0cGqemUrj1u1SbTSAX8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
