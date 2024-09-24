@@ -1,9 +1,12 @@
 // pages/login.dart
+// ignore_for_file: prefer_const_constructors
+
 import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lottie/lottie.dart';
+import 'package:sonmit/pages/student/home.dart';
 import 'package:video_player/video_player.dart';
 
 class SigninPage extends StatefulWidget {
@@ -104,179 +107,197 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
           child: Container(
             width: MediaQuery.of(context).size.width,
             height: double.infinity,
-            child: Stack(
-              alignment: Alignment.center,
-              children: [
-                Positioned.fill(
-                  child: Image.asset(
-                    "assets/bg-image.jpg",
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                Positioned(
-                  right: 0,
-                  top: 0,
-                  child: SizedBox(
-                    width: MediaQuery.of(context).size.width * 0.5,
-                    height: MediaQuery.of(context).size.height * 0.1,
-                    child: Lottie.asset(
-                      'assets/corner_anim.json',
-                      controller: fastAnimationController,
-                      repeat: false,
-                      fit: BoxFit.fill,
-                    ),
-                  ),
-                ),
-                // Bottom-left Lottie animation (Rotated, no padding)
-                Positioned(
-                  left: 0,
-                  bottom: 0,
-                  child: RotatedBox(
-                    quarterTurns: 2,
-                    child: SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.5,
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      child: Lottie.asset(
-                        'assets/corner_anim.json',
-                        controller: fastAnimationController,
-                        repeat: false,
-                        fit: BoxFit.fill,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage("assets/books_1.jpeg"),
+                fit: BoxFit.cover,
+              ),
+            ),
+            child: Container(
+              decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  const Color.fromARGB(255, 246, 83, 33).withOpacity(0.2),
+                  const Color.fromARGB(255, 246, 83, 33),
+                  const Color.fromARGB(255, 246, 83, 33),
+                  const Color.fromARGB(255, 246, 83, 33),
+                  const Color.fromARGB(255, 246, 83, 33),
+                ],
+              )),
+              child: Center(
+                child: Form(
+                    key: _formKey,
+                    child: Container(
+                      // height: 200,
+                      constraints: BoxConstraints(
+                        maxWidth: 500,
+                        minWidth: 300,
                       ),
-                    ),
-                  ),
-                ),
-
-                Center(
-                  child: Form(
-                      key: _formKey,
-                      child: Container(
-                        // height: 200,
-                        constraints: BoxConstraints(
-                          maxWidth: 500,
-                          minWidth: 300,
-                        ),
-                        padding: EdgeInsets.symmetric(horizontal: 10),
-                        child: SingleChildScrollView(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              AnimatedContainer(
-                                duration: Duration(seconds: 1),
-                                height:
-                                    0.3 * MediaQuery.of(context).size.height,
-                                child: Image.asset(
-                                    "assets/progress_meter_named.png"),
-                              ),
-                              const SizedBox(height: 32),
-                              TextFormField(
-                                controller: _codeController,
-                                onTapOutside: (event) =>
-                                    FocusScope.of(context).unfocus(),
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                maxLength: 8,
-                                decoration: InputDecoration(
-                                  labelText: "Code",
-                                  hintText: "Enter your code",
-                                  prefixIcon:
-                                      const Icon(Icons.vpn_key_outlined),
-                                  filled: true,
-                                  border: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(30.0),
-                                  ),
-                                  counter: const SizedBox(
-                                    height: 0,
-                                  ),
+                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            AnimatedContainer(
+                              duration: Duration(seconds: 1),
+                              height: 0.3 * MediaQuery.of(context).size.height,
+                              child: Image.asset("assets/sonmit.jpg"),
+                            ),
+                            const SizedBox(height: 32),
+                            TextFormField(
+                              controller: _codeController,
+                              onTapOutside: (event) =>
+                                  FocusScope.of(context).unfocus(),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              maxLength: 8,
+                              decoration: InputDecoration(
+                                hintStyle: TextStyle(
+                                  color: Theme.of(context).colorScheme.surface,
                                 ),
-                                keyboardType: TextInputType.text,
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Enter your code";
-                                  }
+                                labelStyle: TextStyle(
+                                  color: Theme.of(context).colorScheme.surface,
+                                ),
+                                errorStyle: TextStyle(
+                                  color: Theme.of(context).colorScheme.onError,
+                                ),
+                                prefixIconColor:
+                                    Theme.of(context).colorScheme.surface,
+                                focusColor:
+                                    Theme.of(context).colorScheme.surface,
+                                hoverColor:
+                                    Theme.of(context).colorScheme.surface,
+                                suffixIconColor:
+                                    Theme.of(context).colorScheme.surface,
+                                labelText: "Code",
+                                hintText: "Enter your code",
+                                prefixIcon: const Icon(Icons.vpn_key_outlined),
+                                // filled: true,
+                                border: UnderlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                                counter: const SizedBox(
+                                  height: 0,
+                                ),
+                              ),
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onError,
+                              ),
+                              keyboardType: TextInputType.text,
+                              // validator: (value) {
+                              //   if (value == null || value.isEmpty) {
+                              //     return "Enter your code";
+                              //   }
 
-                                  if (!RegExp(r'[A-Za-z]{3}[A-Za-z0-9]{5}$')
-                                      .hasMatch(value)) {
-                                    return 'Please enter a valid code: eg.sonss001';
-                                  }
-                                  if (value.isNotEmpty &&
-                                      !RegExp(r'[A-Za-z]{3}[A-Za-z0-9]{5}$')
-                                          .hasMatch(value)) {
+                              //   if (!RegExp(r'[A-Za-z]{3}[A-Za-z0-9]{5}$')
+                              //       .hasMatch(value)) {
+                              //     return 'Please enter a valid code: eg.sonss001';
+                              //   }
+                              //   if (value.isNotEmpty &&
+                              //       !RegExp(r'[A-Za-z]{3}[A-Za-z0-9]{5}$')
+                              //           .hasMatch(value)) {
+                              //     setState(() {
+                              //       _isCodeValid = false;
+                              //     });
+                              //   }
+                              //   return null;
+                              // },
+                            ),
+                            const SizedBox(height: 24),
+                            TextFormField(
+                              onTapOutside: (event) =>
+                                  FocusScope.of(context).unfocus(),
+                              autovalidateMode:
+                                  AutovalidateMode.onUserInteraction,
+                              controller: _pinController,
+                              // keyboardType: TextInputType.numberWithOptions(
+                              //   decimal: false,
+                              //   signed: false,
+                              // ),
+                              // maxLength: 4,
+                              obscureText: !_isPinVisible,
+                              // inputFormatters: [
+                              //   FilteringTextInputFormatter.digitsOnly
+                              // ],
+                              // obscuringCharacter: "*",
+                              decoration: InputDecoration(
+                                labelText: "PIN",
+                                hintText: "Enter your PIN",
+                                // filled: true,
+                                counter: const SizedBox(
+                                  height: 0,
+                                ),
+                                hintStyle: TextStyle(
+                                  color: Theme.of(context).colorScheme.surface,
+                                ),
+                                labelStyle: TextStyle(
+                                  color: Theme.of(context).colorScheme.surface,
+                                ),
+                                errorStyle: TextStyle(
+                                  color: Theme.of(context).colorScheme.onError,
+                                ),
+                                prefixIconColor:
+                                    Theme.of(context).colorScheme.surface,
+                                focusColor:
+                                    Theme.of(context).colorScheme.surface,
+                                hoverColor:
+                                    Theme.of(context).colorScheme.surface,
+                                suffixIconColor:
+                                    Theme.of(context).colorScheme.surface,
+                                // fillColor: Theme.of(context).colorScheme.primaryContainer,
+                                prefixIcon: Icon(Icons.lock_outline),
+                                border: UnderlineInputBorder(
+                                  borderRadius: BorderRadius.circular(30.0),
+                                ),
+                                suffixIcon: IconButton(
+                                  onPressed: () {
                                     setState(() {
-                                      _isCodeValid = false;
+                                      _isPinVisible = !_isPinVisible;
                                     });
-                                  }
-                                  return null;
-                                },
-                              ),
-                              const SizedBox(height: 24),
-                              TextFormField(
-                                onTapOutside: (event) =>
-                                    FocusScope.of(context).unfocus(),
-                                autovalidateMode:
-                                    AutovalidateMode.onUserInteraction,
-                                controller: _pinController,
-                                keyboardType: TextInputType.numberWithOptions(
-                                  decimal: false,
-                                  signed: false,
+                                  },
+                                  icon: Icon(_isPinVisible
+                                      ? Icons.visibility_outlined
+                                      : Icons.visibility_off_outlined),
                                 ),
-                                maxLength: 4,
-                                obscureText: !_isPinVisible,
-                                inputFormatters: [
-                                  FilteringTextInputFormatter.digitsOnly
-                                ],
-                                obscuringCharacter: "*",
-                                decoration: InputDecoration(
-                                    labelText: "PIN",
-                                    hintText: "Enter your PIN",
-                                    filled: true,
-                                    counter: const SizedBox(
-                                      height: 0,
-                                    ),
-
-                                    // fillColor: Theme.of(context).colorScheme.primaryContainer,
-                                    prefixIcon: Icon(Icons.lock_outline),
-                                    border: OutlineInputBorder(
-                                      borderRadius: BorderRadius.circular(30.0),
-                                    ),
-                                    suffixIcon: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            _isPinVisible = !_isPinVisible;
-                                          });
-                                        },
-                                        icon: Icon(_isPinVisible
-                                            ? Icons.visibility_outlined
-                                            : Icons.visibility_off_outlined))),
-                                validator: (value) {
-                                  if (value == null || value.isEmpty) {
-                                    return "Enter your PIN";
-                                  }
-                                  if (value.length != 4) {
-                                    return "PIN must be 4 digits";
-                                  }
-                                  return null;
-                                },
                               ),
-                              const SizedBox(height: 32),
-                              FilledButton(
-                                onPressed: () async {
-                                  if (_formKey.currentState!.validate()) {
-                                    final code = _codeController.text.trim();
-                                    final pin = _pinController.text.trim();
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(content: Text("Logging in...")));
-                                    // LoginLoading(context);
-                                  }
-                                },
-                                child: Text("Login"),
+                              style: TextStyle(
+                                color: Theme.of(context).colorScheme.onError,
                               ),
-                            ],
-                          ),
+                              // validator: (value) {
+                              //   if (value == null || value.isEmpty) {
+                              //     return "Enter your PIN";
+                              //   }
+                              //   if (value.length != 4) {
+                              //     return "PIN must be 4 digits";
+                              //   }
+                              //   return null;
+                              // },
+                            ),
+                            const SizedBox(height: 32),
+                            ElevatedButton(
+                              onPressed: () async {
+                                if (_formKey.currentState!.validate()) {
+                                  final code = _codeController.text.trim();
+                                  final pin = _pinController.text.trim();
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(content: Text("Logging in...")));
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => HomePage()));
+                                  // LoginLoading(context);
+                                }
+                              },
+                              child: Text("Login"),
+                            ),
+                          ],
                         ),
-                      )),
-                ),
-              ],
+                      ),
+                    )),
+              ),
             ),
           ),
         ));

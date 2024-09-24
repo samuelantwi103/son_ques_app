@@ -2,10 +2,22 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
-import 'package:sonmit/pages/signin_page.dart';
 
 class AppLayout extends StatefulWidget {
-  const AppLayout({super.key});
+  final List<Map<String, dynamic>> destinationData;
+  final List<Widget> children;
+  final List<Widget> secondaryChildren;
+  final bool showSecondaryBody;
+  final Widget trailingNavRail;
+
+  const AppLayout({
+    Key? key,
+    required this.destinationData,
+    required this.children,
+    required this.secondaryChildren,
+    this.showSecondaryBody = true,
+    this.trailingNavRail = const Icon(Icons.abc),
+  }) : super(key: key);
 
   @override
   State<AppLayout> createState() => _AppLayoutState();
@@ -13,57 +25,54 @@ class AppLayout extends StatefulWidget {
 
 class _AppLayoutState extends State<AppLayout> {
   int selectedIndex = 0;
-  final List<NavigationDestination> destinations = [
-    NavigationDestination(icon: Icon(Icons.home), label: 'Home'),
-    NavigationDestination(
-        icon: Icon(Icons.layers_outlined), label: "Assignment"),
-    // NavigationDestination(
-    //     icon: Icon(Icons.layers_outlined), label: "Assignment"),
-    // NavigationDestination(
-    //     icon: Icon(Icons.layers_outlined), label: "Assignment"),
-  ];
-  Widget trailingNavRail = Icon(Icons.abc);
-  List<Widget> children = [
-    Card.filled(
-        child: Padding(
-      padding: const EdgeInsets.all(50.0),
-      child: Text('Home'),
-    )),
-    Card.filled(
-        child: Padding(
-      padding: const EdgeInsets.all(50.0),
-      child: Text('Home'),
-    )),
-    Card.filled(
-        child: Padding(
-      padding: const EdgeInsets.all(50.0),
-      child: Text('Home'),
-    )),
-    Card.filled(
-        child: Padding(
-      padding: const EdgeInsets.all(50.0),
-      child: Text('Home'),
-    )),
-    Card.filled(
-        child: Padding(
-      padding: const EdgeInsets.all(50.0),
-      child: Text('Home'),
-    )),
-    Card.filled(
-        child: Padding(
-      padding: const EdgeInsets.all(50.0),
-      child: Text('Home'),
-    )),
-  ];
 
   @override
   Widget build(BuildContext context) {
+    // Dynamically build the NavigationDestination list
+    final destinations = widget.destinationData.map((data) {
+      return NavigationDestination(
+        icon: data['icon'] as Icon,
+        label: data['label'] as String,
+      );
+    }).toList();
+
     return AdaptiveLayout(
       transitionDuration: Duration(milliseconds: 500),
+      secondaryBody: !widget.showSecondaryBody
+          ? null
+          : SlotLayout(config: {
+              Breakpoints.medium: SlotLayout.from(
+                key: Key('Body Medium'),
+                builder: (context) => GridView.count(
+                  crossAxisCount: 2,
+                  children: widget.secondaryChildren,
+                ),
+              ),
+              Breakpoints.mediumLarge: SlotLayout.from(
+                key: Key('Body MediumLarge'),
+                builder: (context) => GridView.count(
+                  crossAxisCount: 3,
+                  children: widget.secondaryChildren,
+                ),
+              ),
+              Breakpoints.large: SlotLayout.from(
+                key: Key('Body Large'),
+                builder: (context) => GridView.count(
+                  crossAxisCount: 4,
+                  children: widget.secondaryChildren,
+                ),
+              ),
+              Breakpoints.extraLarge: SlotLayout.from(
+                key: Key('Body ExtraLarge'),
+                builder: (context) => GridView.count(
+                  crossAxisCount: 5,
+                  children: widget.secondaryChildren,
+                ),
+              ),
+            }),
       primaryNavigation: SlotLayout(
         config: {
           Breakpoints.medium: SlotLayout.from(
-            inAnimation: AdaptiveScaffold.leftOutIn,
             key: Key("Primary Navigation Medium"),
             builder: (context) => AdaptiveScaffold.standardNavigationRail(
               selectedIndex: selectedIndex,
@@ -77,12 +86,11 @@ class _AppLayoutState extends State<AppLayout> {
                   .map((destination) =>
                       AdaptiveScaffold.toRailDestination(destination))
                   .toList(),
-              trailing: trailingNavRail,
+              trailing: widget.trailingNavRail,
             ),
           ),
           Breakpoints.mediumLarge: SlotLayout.from(
             key: Key("Primary Navigation MediumLarge"),
-            inAnimation: AdaptiveScaffold.leftOutIn,
             builder: (context) => AdaptiveScaffold.standardNavigationRail(
               selectedIndex: selectedIndex,
               onDestinationSelected: (index) {
@@ -102,12 +110,11 @@ class _AppLayoutState extends State<AppLayout> {
                   .map((destination) =>
                       AdaptiveScaffold.toRailDestination(destination))
                   .toList(),
-              trailing: trailingNavRail,
+              trailing: widget.trailingNavRail,
             ),
           ),
           Breakpoints.large: SlotLayout.from(
             key: Key("Primary Navigation Large"),
-            inAnimation: AdaptiveScaffold.leftOutIn,
             builder: (context) => AdaptiveScaffold.standardNavigationRail(
               selectedIndex: selectedIndex,
               onDestinationSelected: (index) {
@@ -127,12 +134,11 @@ class _AppLayoutState extends State<AppLayout> {
                   .map((destination) =>
                       AdaptiveScaffold.toRailDestination(destination))
                   .toList(),
-              trailing: trailingNavRail,
+              trailing: widget.trailingNavRail,
             ),
           ),
           Breakpoints.extraLarge: SlotLayout.from(
             key: Key("Primary Navigation ExtraLarge"),
-            inAnimation: AdaptiveScaffold.leftOutIn,
             builder: (context) => AdaptiveScaffold.standardNavigationRail(
               selectedIndex: selectedIndex,
               onDestinationSelected: (index) {
@@ -141,18 +147,18 @@ class _AppLayoutState extends State<AppLayout> {
                 });
               },
               extended: true,
-              leading: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text("REPLY"),
-                  Icon(Icons.menu_open),
-                ],
-              ),
+              // leading: Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //   children: [
+              //     Text("REPLY"),
+              //     Icon(Icons.menu_open),
+              //   ],
+              // ),
               destinations: destinations
                   .map((destination) =>
                       AdaptiveScaffold.toRailDestination(destination))
                   .toList(),
-              trailing: trailingNavRail,
+              // trailing: widget.trailingNavRail,
             ),
           ),
         },
@@ -161,29 +167,37 @@ class _AppLayoutState extends State<AppLayout> {
         Breakpoints.small: SlotLayout.from(
           key: Key('Body Small'),
           builder: (context) => ListView.builder(
-            itemCount: children.length,
-            itemBuilder: (context, index) => children[index],
+            itemCount: widget.children.length,
+            itemBuilder: (context, index) => widget.children[index],
           ),
         ),
         Breakpoints.medium: SlotLayout.from(
           key: Key('Body Medium'),
-          builder: (context) =>
-              GridView.count(crossAxisCount: 2, children: children),
+          builder: (context) => GridView.count(
+            crossAxisCount: 2,
+            children: widget.children,
+          ),
         ),
         Breakpoints.mediumLarge: SlotLayout.from(
           key: Key('Body MediumLarge'),
-          builder: (context) =>
-              GridView.count(crossAxisCount: 3, children: children),
+          builder: (context) => GridView.count(
+            crossAxisCount: 3,
+            children: widget.children,
+          ),
         ),
         Breakpoints.large: SlotLayout.from(
           key: Key('Body Large'),
-          builder: (context) =>
-              GridView.count(crossAxisCount: 4, children: children),
+          builder: (context) => GridView.count(
+            crossAxisCount: 4,
+            children: widget.children,
+          ),
         ),
         Breakpoints.extraLarge: SlotLayout.from(
           key: Key('Body ExtraLarge'),
-          builder: (context) =>
-              GridView.count(crossAxisCount: 5, children: children),
+          builder: (context) => GridView.count(
+            crossAxisCount: 5,
+            children: widget.children,
+          ),
         ),
       }),
       bottomNavigation: SlotLayout(config: {

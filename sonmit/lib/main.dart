@@ -1,5 +1,7 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:sonmit/pages/adaptive_layout.dart';
+import 'package:sonmit/components/adaptive_layout.dart';
 import 'package:sonmit/pages/signin_page.dart';
 
 void main() {
@@ -26,9 +28,7 @@ class MyApp extends StatelessWidget {
           )),
       darkTheme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
-            seedColor: Colors.orange,
-            brightness: Brightness.dark
-          ),
+              seedColor: Colors.orange, brightness: Brightness.dark),
           brightness: Brightness.dark,
           useMaterial3: true,
           snackBarTheme: SnackBarThemeData(
@@ -36,7 +36,7 @@ class MyApp extends StatelessWidget {
             behavior: SnackBarBehavior.floating,
           )),
       themeMode: ThemeMode.light,
-      home: AppLayout(),
+      home: SigninPage()
     );
   }
 }
