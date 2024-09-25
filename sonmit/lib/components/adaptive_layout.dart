@@ -82,7 +82,7 @@ class _AppLayoutState extends State<AppLayout> {
                   selectedIndex = index;
                 });
               },
-              leading: Icon(Icons.menu),
+              // leading: Icon(Icons.menu),
               destinations: destinations
                   .map((destination) =>
                       AdaptiveScaffold.toRailDestination(destination))
@@ -100,13 +100,13 @@ class _AppLayoutState extends State<AppLayout> {
                 });
               },
               extended: true,
-              leading: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Text("REPLY"),
-                  Icon(Icons.menu_open),
-                ],
-              ),
+              // leading: Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceAround,
+              //   children: [
+              //     Text("REPLY"),
+              //     Icon(Icons.menu_open),
+              //   ],
+              // ),
               destinations: destinations
                   .map((destination) =>
                       AdaptiveScaffold.toRailDestination(destination))

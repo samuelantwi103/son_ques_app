@@ -54,47 +54,47 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
   late Animation<double> logoFadeAnimation;
   late Animation<Offset> formSlideAnimation;
   late AnimationController animationController;
-  late AnimationController fastAnimationController;
+  // late AnimationController fastAnimationController;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    fastAnimationController = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 5000),
-    );
+    // fastAnimationController = AnimationController(
+    //   vsync: this,
+    //   duration: const Duration(milliseconds: 5000),
+    // );
     animationController = AnimationController(
       vsync: this,
-      duration: Duration(seconds: 2),
+      duration: Duration(seconds: 1),
     );
 
-    fastAnimationController.forward();
-    fastAnimationController.addStatusListener(
-      (status) {
-        if (status == AnimationStatus.completed) {
-          fastAnimationController.reverse();
-        } else if (status == AnimationStatus.dismissed) {
-          fastAnimationController.forward();
-        }
-      },
-    );
+    // fastAnimationController.forward();
+    // fastAnimationController.addStatusListener(
+    //   (status) {
+    //     if (status == AnimationStatus.completed) {
+    //       fastAnimationController.reverse();
+    //     } else if (status == AnimationStatus.dismissed) {
+    //       fastAnimationController.forward();
+    //     }
+    //   },
+    // );
 
-    fastAnimationController.repeat();
+    // fastAnimationController.repeat();
     // fastAnimationController.duration = Duration(seconds: 2);
     logoFadeAnimation =
-        Tween<double>(begin: 0, end: 1).animate(animationController);
-    formSlideAnimation = Tween<Offset>(begin: Offset(0, 1), end: Offset.zero)
+        Tween<double>(begin: 0.5, end: 1).animate(animationController);
+    formSlideAnimation = Tween<Offset>(begin: Offset(1, 1), end: Offset.zero)
         .animate(animationController);
 
-    fastAnimationController.forward();
+    // fastAnimationController.forward();
     animationController.forward();
   }
 
   @override
   void dispose() {
     animationController.dispose();
-    fastAnimationController.dispose();
+    // fastAnimationController.dispose();
     super.dispose();
   }
 
@@ -144,7 +144,8 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
                             AnimatedContainer(
                               duration: Duration(seconds: 1),
                               height: 0.3 * MediaQuery.of(context).size.height,
-                              child: Image.asset("assets/sonmit-transparent.png"),
+                              child:
+                                  Image.asset("assets/sonmit-transparent.png"),
                             ),
                             const SizedBox(height: 32),
                             TextFormField(
@@ -277,7 +278,15 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
                               // },
                             ),
                             const SizedBox(height: 32),
-                            ElevatedButton(
+                            MaterialButton(
+                              color: Theme.of(context).colorScheme.surface,
+                              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                              shape: StarBorder.polygon(
+                                  sides: 8,
+                                  rotation: 22.5,
+                                  squash: 0.8,
+
+                                  pointRounding: 0.4),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   final code = _codeController.text.trim();

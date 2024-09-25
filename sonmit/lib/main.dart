@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sonmit/components/adaptive_layout.dart';
+import 'package:sonmit/components/splash.dart';
 import 'package:sonmit/pages/signin_page.dart';
 
 void main() {
@@ -36,7 +37,7 @@ class MyApp extends StatelessWidget {
             behavior: SnackBarBehavior.floating,
           )),
       themeMode: ThemeMode.light,
-      home: SigninPage()
+      home: SplashScreen()
     );
   }
 }
