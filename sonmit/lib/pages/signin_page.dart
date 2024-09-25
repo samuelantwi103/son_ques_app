@@ -83,7 +83,7 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
     // fastAnimationController.repeat();
     // fastAnimationController.duration = Duration(seconds: 2);
     logoFadeAnimation =
-        Tween<double>(begin: 0.5, end: 1).animate(animationController);
+        Tween<double>(begin: 0, end: 1).animate(animationController);
     formSlideAnimation = Tween<Offset>(begin: Offset(1, 1), end: Offset.zero)
         .animate(animationController);
 
@@ -102,6 +102,7 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
         extendBody: true,
+        backgroundColor: const Color.fromARGB(255, 246, 83, 33),
         body: FadeTransition(
           opacity: logoFadeAnimation,
           child: Container(
