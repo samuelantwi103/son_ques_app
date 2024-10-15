@@ -1,13 +1,9 @@
 // pages/login.dart
 // ignore_for_file: prefer_const_constructors
 
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:lottie/lottie.dart';
+
 import 'package:sonmit/pages/student/home.dart';
-import 'package:video_player/video_player.dart';
 
 class SigninPage extends StatefulWidget {
   const SigninPage({super.key});
@@ -23,8 +19,8 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
   final TextEditingController _codeController = TextEditingController();
   final TextEditingController _pinController = TextEditingController();
 
-  bool _isPinVisible = false; // To toggle pin visibility
-  bool _isCodeValid = false;
+  bool _isPinVisible = false;
+  // bool _isCodeValid = false;
 
   // // Video Controller
   // late VideoPlayerController _controller;
@@ -32,7 +28,6 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
 
   // @override
   // void initState() {
-  //   // TODO: implement initState
   //   super.initState();
 
   //   _controller = VideoPlayerController.asset(
@@ -45,7 +40,6 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
 
   // @override
   // void dispose() {
-  //   // TODO: implement dispose
   //   _controller.dispose();
   //   super.dispose();
   // }
@@ -58,7 +52,7 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
 
   @override
   void initState() {
-    // TODO: implement initState
+
     super.initState();
     // fastAnimationController = AnimationController(
     //   vsync: this,
@@ -106,7 +100,7 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
         body: FadeTransition(
           opacity: logoFadeAnimation,
           child: Container(
-            width: MediaQuery.of(context).size.width,
+            width: MediaQuery.sizeOf(context).width,
             height: double.infinity,
             decoration: BoxDecoration(
               image: DecorationImage(
@@ -144,11 +138,12 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
                           children: [
                             AnimatedContainer(
                               duration: Duration(seconds: 1),
-                              height: 0.3 * MediaQuery.of(context).size.height,
+                              height: 0.3 * MediaQuery.sizeOf(context).height,
                               child:
                                   Image.asset("assets/sonmit-transparent.png"),
                             ),
                             const SizedBox(height: 32),
+                            // CODE
                             TextFormField(
                               controller: _codeController,
                               onTapOutside: (event) =>
@@ -209,6 +204,7 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
                               // },
                             ),
                             const SizedBox(height: 24),
+                            // PIN
                             TextFormField(
                               onTapOutside: (event) =>
                                   FocusScope.of(context).unfocus(),
@@ -281,19 +277,19 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
                             const SizedBox(height: 32),
                             MaterialButton(
                               color: Theme.of(context).colorScheme.surface,
-                              padding: EdgeInsets.symmetric(horizontal: 40, vertical: 20),
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: 40, vertical: 20),
                               shape: StarBorder.polygon(
                                   sides: 8,
                                   rotation: 22.5,
                                   squash: 0.8,
-
                                   pointRounding: 0.4),
                               onPressed: () async {
                                 if (_formKey.currentState!.validate()) {
                                   final code = _codeController.text.trim();
                                   final pin = _pinController.text.trim();
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text("Logging in...")));
+                                      SnackBar(content: Text('Logging in with \ncode: $code\n pin:$pin')));
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
@@ -303,6 +299,8 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
                               },
                               child: Text("Login"),
                             ),
+                            // SizedBox(height: 10),
+                            // GradientButton(text: "Login", onPressed: () {}),
                           ],
                         ),
                       ),

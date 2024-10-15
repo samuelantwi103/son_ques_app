@@ -13,13 +13,13 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnimatedSplashScreen(
       splash: SizedBox(
-        height: MediaQuery.of(context).size.height,
-        width: MediaQuery.of(context).size.width,
+        height: MediaQuery.sizeOf(context).height,
+        width: MediaQuery.sizeOf(context).width,
         child: Center(
           child: Column(mainAxisSize: MainAxisSize.min, children: [
             AnimatedContainer(
-              duration: Duration(seconds: 1),
-              height: 0.3 * MediaQuery.of(context).size.height,
+              duration: const Duration(seconds: 1),
+              height: 0.3 * MediaQuery.sizeOf(context).height,
               child: Image.asset("assets/sonmit_transparent_icon.png"),
             ),
           ]),
@@ -27,7 +27,7 @@ class SplashScreen extends StatelessWidget {
       ),
       splashIconSize: 400,
       backgroundColor: const Color.fromARGB(255, 246, 83, 33),
-      nextScreen: SigninPage(),
+      nextScreen: const SigninPage(),
     );
   }
 }
