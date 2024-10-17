@@ -17,6 +17,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(
               seedColor: Colors.deepOrange,
+              // surface: Colors.deepOrange[100],
             ),
             useMaterial3: true,
             snackBarTheme: SnackBarThemeData(

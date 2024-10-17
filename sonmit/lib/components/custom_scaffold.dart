@@ -5,11 +5,15 @@ class CustomScaffold extends StatefulWidget {
   List<Widget> body;
   Color? backgroundColor;
   bool jumbo;
-  CustomScaffold(
-      {super.key,
-      required this.body,
-      this.backgroundColor,
-      this.jumbo = false});
+  
+
+
+  CustomScaffold({
+    super.key,
+    required this.body,
+    this.backgroundColor,
+    this.jumbo = false,
+  });
 
   @override
   State<CustomScaffold> createState() => _CustomScaffoldState();
@@ -29,15 +33,16 @@ class _CustomScaffoldState extends State<CustomScaffold> {
             ? BoxConstraints(
                 maxHeight: MediaQuery.of(context).size.height - 60,
                 minHeight: MediaQuery.of(context).size.height - 60,
-              ):null,
-            // : BoxConstraints(
-            //     minHeight: MediaQuery.of(context).size.height - 80),
+              )
+            : null,
+        // : BoxConstraints(
+        //     minHeight: MediaQuery.of(context).size.height - 80),
         // height: MediaQuery.of(context).size.height - 80,
         child: SingleChildScrollView(
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: widget.body,
           ),
-        )
-        );
+        ));
   }
 }

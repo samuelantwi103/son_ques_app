@@ -48,6 +48,94 @@ class OutlinedCustomButton extends StatelessWidget {
   }
 }
 
+//Full Button
+class FullButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+
+  const FullButton({super.key, required this.text, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: 300,
+      ),
+      child: MaterialButton(
+        onPressed: onPressed,
+        color: Theme.of(context).colorScheme.primary,
+        textColor: Theme.of(context).colorScheme.onPrimary,
+        minWidth: double.maxFinite,
+        shape: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(10),
+            borderSide: BorderSide(color: Colors.transparent)),
+        // style: ButtonStyle(
+        //     // elevation: WidgetStatePropertyAll(10),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        //     side: WidgetStatePropertyAll(BorderSide(
+        //       width: 2,
+        //     ))),
+        child: Text(
+          text,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.onPrimary,
+                fontSize: 15,
+                letterSpacing: 5,
+              ),
+        ),
+      ),
+    );
+  }
+}
+
+//Full Button
+class FullOutlineButton extends StatelessWidget {
+  final String text;
+  final VoidCallback onPressed;
+
+  const FullOutlineButton(
+      {super.key, required this.text, required this.onPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxWidth: 300,
+      ),
+      child: MaterialButton(
+        onPressed: onPressed,
+      
+        // color: Theme.of(context).colorScheme.primary,
+        textColor: Theme.of(context).colorScheme.primary,
+        minWidth: double.maxFinite,
+        shape: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(
+            color: Theme.of(context).colorScheme.primary,
+            width: 2,
+          ),
+        ),
+        // style: ButtonStyle(
+        //     // elevation: WidgetStatePropertyAll(10),
+        padding: EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+        //     side: WidgetStatePropertyAll(BorderSide(
+        //       width: 2,
+        //     ))),
+        child: Text(
+          text,
+          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                fontWeight: FontWeight.bold,
+                color: Theme.of(context).colorScheme.primary,
+                fontSize: 15,
+                letterSpacing: 5,
+              ),
+        ),
+      ),
+    );
+  }
+}
+
 // I'M BLACK Button
 class BlackButton extends StatelessWidget {
   final String text;
