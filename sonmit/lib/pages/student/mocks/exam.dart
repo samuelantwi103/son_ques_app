@@ -1,37 +1,38 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:sonmit/components/custom_scaffold.dart';
 
-class QuizPage extends StatefulWidget {
+class ExamPage extends StatefulWidget {
   String title;
-  QuizPage({
+  bool isChecking;
+  ExamPage({
     super.key,
     required this.title,
+    this.isChecking = false,
   });
 
   @override
-  State<QuizPage> createState() => _QuizPageState();
+  State<ExamPage> createState() => _ExamPageState();
 }
 
-class _QuizPageState extends State<QuizPage> {
+class _ExamPageState extends State<ExamPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         leading: CupertinoNavigationBarBackButton(),
-        // title:
+        
         centerTitle: true,
       ),
-      body: CustomScaffold(body: [
-        Text(
+      body: Scaffold(
+        body: Text(
           widget.title,
           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context).colorScheme.secondary,
               ),
         ),
-      ]),
+      ),
     );
   }
 }

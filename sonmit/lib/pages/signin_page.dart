@@ -96,7 +96,7 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Scaffold(
         extendBody: true,
-        backgroundColor: const Color.fromARGB(255, 246, 83, 33),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         body: FadeTransition(
           opacity: logoFadeAnimation,
           child: Container(
@@ -114,11 +114,11 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
                 begin: Alignment.topCenter,
                 end: Alignment.bottomCenter,
                 colors: [
-                  const Color.fromARGB(255, 246, 83, 33).withOpacity(0.2),
-                  const Color.fromARGB(255, 246, 83, 33),
-                  const Color.fromARGB(255, 246, 83, 33),
-                  const Color.fromARGB(255, 246, 83, 33),
-                  const Color.fromARGB(255, 246, 83, 33),
+                  Theme.of(context).colorScheme.primaryContainer.withOpacity(0.2),
+                  Theme.of(context).colorScheme.primaryContainer,
+                  Theme.of(context).colorScheme.primaryContainer,
+                  Theme.of(context).colorScheme.primaryContainer,
+                  Theme.of(context).colorScheme.primaryContainer,
                 ],
               )),
               child: Center(
@@ -289,7 +289,7 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
                                   final code = _codeController.text.trim();
                                   final pin = _pinController.text.trim();
                                   ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(content: Text('Logging in with \ncode: $code\n pin:$pin')));
+                                      SnackBar(content: Text('Logging in with code: $code pin:$pin')));
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(

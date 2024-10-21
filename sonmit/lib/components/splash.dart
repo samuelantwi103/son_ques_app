@@ -26,7 +26,7 @@ class SplashScreen extends StatelessWidget {
         ),
       ),
       splashIconSize: 400,
-      backgroundColor: const Color.fromARGB(255, 246, 83, 33),
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       nextScreen: const SigninPage(),
     );
   }

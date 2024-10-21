@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:intl/intl.dart';
-import 'package:sonmit/components/button.dart';
 import 'package:sonmit/components/card.dart';
-import 'package:sonmit/components/custom_scaffold.dart';
 
 class UserDashboard extends StatefulWidget {
   const UserDashboard({super.key});
@@ -17,67 +15,79 @@ class _UserDashboardState extends State<UserDashboard> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15.0, 15, 15, 0),
-      child:CustomScaffold(
-        body: [
-          !Breakpoints.mediumAndUp.isActive(context) ?Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              DateFormat('EEE d MMMM, yyyy').format(DateTime.now()),
-              style: Theme.of(context).textTheme.titleMedium,
-            ),
-          ):const Text(""),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10),
-              child: Text(
-                "Hey Samuel👋",
-                style: Theme.of(context).textTheme.titleLarge,
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10),
-              child: Text(
-                "SONMIT Points: 60",
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-              width: 170,
-              // height: 50,
-              // child: CustomCard(
-                // child: Center(
-                  child: Text(
-                    "Announcements",
-                    style: Theme.of(context).textTheme.titleMedium,
+      child: Scaffold(
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                !Breakpoints.mediumAndUp.isActive(context)
+                    ? Align(
+                        alignment: Alignment.centerRight,
+                        child: Text(
+                          DateFormat('EEE d MMMM, yyyy').format(DateTime.now()),
+                          style: Theme.of(context).textTheme.titleMedium,
+                        ),
+                      )
+                    : const Text(""),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10),
+                    child: Text(
+                      "Hey Samuel👋",
+                      style: Theme.of(context).textTheme.titleLarge,
+                    ),
                   ),
-                // ),
-              // ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10),
+                    child: Text(
+                      "SONMIT Points: 60",
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Container(
+                    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    width: 170,
+                    // height: 50,
+                    // child: CustomCard(
+                    // child: Center(
+                    child: Text(
+                      "Announcements",
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
+                    // ),
+                    // ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                ResultAnnouncementCard(
+                    title: "Test results are in!!!",
+                    score: 70,
+                    subject: "Biology",
+                    onTap: () {}),
+                const SizedBox(
+                  height: 20,
+                ),
+                QuizAnnouncementCard(
+                    title: "Pending Quiz!!!",
+                    subject: "Physics",
+                    duration: "1hr 30min",
+                    dueDate: "10th Dec, 2024, 10:59",
+                    onTap: () {})
+              ],
             ),
           ),
-          const SizedBox(
-            height: 20,
-          ),
-          ResultAnnouncementCard(title: "Test results are in!!!", score: 70,subject: "Biology", onTap: (){}),
-          const SizedBox(
-            height: 20,
-          ),
-          QuizAnnouncementCard(
-              title: "Pending Quiz!!!",
-              subject: "Physics",
-              duration: "1hr 30min",
-              dueDate: "10th Dec, 2024, 10:59",
-              onTap: () {})
-        ],
+        ),
       ),
     );
   }
@@ -93,32 +103,32 @@ class UserDashboardSecondary extends StatefulWidget {
 class _UserDashboardSecondaryState extends State<UserDashboardSecondary> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(15.0, 15, 15, 0),
-      child: CustomScaffold(
-        body: [
-          Align(
-            alignment: Alignment.centerRight,
-            child: Text(
-              DateFormat('EEE d MMMM, yyyy').format(DateTime.now()),
-              style: Theme.of(context).textTheme.titleMedium,
+    return Scaffold(
+      body:SingleChildScrollView(
+        child: SafeArea(
+          child: Column(children: [
+            Align(
+              alignment: Alignment.centerRight,
+              child: Text(
+                DateFormat('EEE d MMMM, yyyy').format(DateTime.now()),
+                style: Theme.of(context).textTheme.titleMedium,
+              ),
             ),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-        Container(
-          height: MediaQuery.sizeOf(context).height -100,
-          child: Center(
-            child: Text("Profile"),
-          ),
+            const SizedBox(
+              height: 20,
+            ),
+            SizedBox(
+              height: MediaQuery.sizeOf(context).height - 100,
+              child: Center(
+                child: Text("Profile"),
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+          ],
+                ),
         ),
-          const SizedBox(
-            height: 20,
-          ),
-          
-        ],
-      ),
-    );
+      ));
   }
 }

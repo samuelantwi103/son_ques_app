@@ -52,8 +52,14 @@ class OutlinedCustomButton extends StatelessWidget {
 class FullButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final bool enabled;
 
-  const FullButton({super.key, required this.text, required this.onPressed});
+  const FullButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.enabled = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -62,8 +68,16 @@ class FullButton extends StatelessWidget {
         maxWidth: 300,
       ),
       child: MaterialButton(
-        onPressed: onPressed,
-        color: Theme.of(context).colorScheme.primary,
+        onPressed: enabled ? onPressed : null,
+        enableFeedback: enabled,
+        disabledColor:
+            Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
+
+        color: Theme.of(context)
+            .colorScheme
+            .primaryContainer
+            .withOpacity(enabled ? 1 : 0.4),
+
         textColor: Theme.of(context).colorScheme.onPrimary,
         minWidth: double.maxFinite,
         shape: OutlineInputBorder(
@@ -93,9 +107,14 @@ class FullButton extends StatelessWidget {
 class FullOutlineButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final bool enabled;
 
-  const FullOutlineButton(
-      {super.key, required this.text, required this.onPressed});
+  const FullOutlineButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.enabled = true,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -104,15 +123,20 @@ class FullOutlineButton extends StatelessWidget {
         maxWidth: 300,
       ),
       child: MaterialButton(
-        onPressed: onPressed,
-      
+        onPressed: enabled? onPressed:null,
+        // disabledColor:
+        //     Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
+
         // color: Theme.of(context).colorScheme.primary,
         textColor: Theme.of(context).colorScheme.primary,
         minWidth: double.maxFinite,
         shape: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(
-            color: Theme.of(context).colorScheme.primary,
+            color: Theme.of(context)
+                .colorScheme
+                .primaryContainer
+                .withOpacity(enabled ? 1 : 0.5),
             width: 2,
           ),
         ),
@@ -126,7 +150,10 @@ class FullOutlineButton extends StatelessWidget {
           text,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.bold,
-                color: Theme.of(context).colorScheme.primary,
+                color: Theme.of(context)
+                    .colorScheme
+                    .primaryContainer
+                    .withOpacity(enabled ? 1 : 0.5),
                 fontSize: 15,
                 letterSpacing: 5,
               ),
