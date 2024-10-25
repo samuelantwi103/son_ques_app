@@ -1,3 +1,6 @@
+// services/callback.dart
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:sonmit/components/dialog.dart';
 
@@ -64,20 +67,40 @@ void callDialog({
   bool barrierDismissible = true,
   bool showTitle = true,
   bool showCancel = true,
+  bool showConfirm = true,
+  Duration? timeDialog, // Optional timer duration
 }) {
   showDialog(
     context: context,
     barrierDismissible: barrierDismissible,
     builder: (context) {
-      return PopupDialog(
-          title: title,
-          message: content,
-          onConfirm: onConfirm,
-          showTitle: showTitle,
-          showCancel: showCancel,
-          onCancel: () {
+      // If a timer is specified, set a timer to close the dialog
+      if (timeDialog != null) {
+        Timer(timeDialog, () {
+          if (Navigator.canPop(context)) {
             Navigator.pop(context);
-          });
+          }
+        });
+      }
+
+      return AlertDialog(
+        title: showTitle ? Text(title) : null,
+        content: content,
+        actions: [
+          if (showCancel)
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context); // Close dialog on cancel
+              },
+              child: Text('Cancel'),
+            ),
+          if (showConfirm)
+            TextButton(
+              onPressed: onConfirm,
+              child: Text('Confirm'),
+            ),
+        ],
+      );
     },
   );
 }

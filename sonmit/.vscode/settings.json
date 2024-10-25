@@ -1,4 +1,7 @@
 {
   "cmake.sourceDirectory": "C:/Users/USER/working_files/GitHub/son_ques_app/sonmit/windows/flutter",
-  "java.configuration.updateBuildConfiguration": "automatic"
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "cSpell.words": [
+    "sonmit"
+  ]
 }

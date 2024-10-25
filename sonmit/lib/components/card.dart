@@ -1,3 +1,4 @@
+// components/card.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -395,35 +396,52 @@ class MockCard extends StatelessWidget {
               height: 15,
             ),
             Breakpoints.mediumAndUp.isActive(context)
-                ? Row(children: [
+            ? Row(children: [
                     Expanded(
                       child: FullOutlineButton(
-                        onPressed: onViewScore,
-                        text: "View Score",
-                      ),
+                          onPressed: onViewScore,
+                          text: "View Score",
+                          enabled: score == null ? true : false),
                     ),
                     SizedBox(
                       width: 10,
                     ),
                     Expanded(
                       child: FullButton(
-                        onPressed: onStart,
-                        text: "Start Exam",
-                      ),
+                          onPressed: onStart,
+                          text: "Start Exam",
+                          enabled: score == null ? false : true),
                     ),
                   ])
+                // ? Row(children: [
+                //     Expanded(
+                //       child: FullOutlineButton(
+                //         onPressed: onViewScore,
+                //         text: "View Score",
+                //       ),
+                //     ),
+                //     SizedBox(
+                //       width: 10,
+                //     ),
+                //     Expanded(
+                //       child: FullButton(
+                //         onPressed: onStart,
+                //         text: "Start Quiz",
+                //       ),
+                //     ),
+                //   ])
                 : Column(children: [
                     FullOutlineButton(
-                      onPressed: onViewScore,
-                      text: "View Score",
-                    ),
+                        onPressed: onViewScore,
+                        text: "View Score",
+                        enabled: score == null ? true : false),
                     SizedBox(
                       height: 10,
                     ),
                     FullButton(
-                      onPressed: onStart,
-                      text: "Start Exam",
-                    ),
+                        onPressed: onStart,
+                        text: "Start Quiz",
+                        enabled: score == null ? false : true),
                   ]),
             SizedBox(
               height: 20,
@@ -470,10 +488,10 @@ class OptionTile extends StatelessWidget {
                           ? (isCorrect
                               ? Colors.green.withOpacity(0.2)
                               : Colors.red.withOpacity(0.2))
-                          : Theme.of(context).colorScheme.surfaceContainer
+                          : Theme.of(context).colorScheme.surfaceContainerHighest
                       : Colors.green.withOpacity(0.2))
                   : isSelected
-                      ? Theme.of(context).colorScheme.surfaceContainer
+                      ? Theme.of(context).colorScheme.surfaceContainerHighest
                       : Theme.of(context).colorScheme.surfaceContainerLowest,
               border: Border.all(
                 color: !isChecking

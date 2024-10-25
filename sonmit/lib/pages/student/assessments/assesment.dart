@@ -1,3 +1,4 @@
+// pages/student/assessments/assesment.dart
 import 'package:flutter/material.dart';
 import 'package:sonmit/components/card.dart';
 import 'package:sonmit/pages/student/assessments/quiz.dart';
@@ -55,50 +56,48 @@ class _AssesmentPageState extends State<AssesmentPage> {
     ];
 
     return Scaffold(
-        body: CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          expandedHeight: 150.0,
-          pinned: true,
-          leading: SizedBox(),
-          flexibleSpace: FlexibleSpaceBar(
-            centerTitle: true,
-            title: Text(
-              "Assessments",
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
+      body: CustomScrollView(
+        slivers: [
+          SliverAppBar(
+            expandedHeight: 150.0,
+            pinned: true,
+            leading: SizedBox(),
+            flexibleSpace: FlexibleSpaceBar(
+              centerTitle: true,
+              title: Text(
+                "Assessments",
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.secondary,
+                    ),
+              ),
+              // background: Image.asset(
+              //   'assets/books_1.jpeg',
+              //   fit: BoxFit.cover,
+              // ),
             ),
-            // background: Image.asset(
-            //   'assets/books_1.jpeg',
-            //   fit: BoxFit.cover,
-            // ),
           ),
-        ),
-        // SliverPadding(
-        //   padding: const EdgeInsets.fromLTRB(15.0, 15, 15, 0),
-        //   sliver: SliverToBoxAdapter(
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         SizedBox(height: 20),
-        //         Text(
-        //           "Mocks",
-        //           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-        //                 fontWeight: FontWeight.bold,
-        //                 color: Theme.of(context).colorScheme.secondary,
-        //               ),
-        //         ),
-        //         SizedBox(height: 20),
-        //       ],
-        //     ),
-        //   ),
-        // ),
-        SliverList(
-          delegate: SliverChildBuilderDelegate(
-            childCount: 2,
-            (context, index) => Padding(
+          // SliverPadding(
+          //   padding: const EdgeInsets.fromLTRB(15.0, 15, 15, 0),
+          //   sliver: SliverToBoxAdapter(
+          //     child: Column(
+          //       crossAxisAlignment: CrossAxisAlignment.start,
+          //       children: [
+          //         SizedBox(height: 20),
+          //         Text(
+          //           "Mocks",
+          //           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+          //                 fontWeight: FontWeight.bold,
+          //                 color: Theme.of(context).colorScheme.secondary,
+          //               ),
+          //         ),
+          //         SizedBox(height: 20),
+          //       ],
+          //     ),
+          //   ),
+          // ),
+          SliverToBoxAdapter(
+            child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: ConstrainedBox(
                 constraints: BoxConstraints(
@@ -153,8 +152,8 @@ class _AssesmentPageState extends State<AssesmentPage> {
               ),
             ),
           ),
-        ),
-      ],
-    ));
+        ],
+      ),
+    );
   }
 }

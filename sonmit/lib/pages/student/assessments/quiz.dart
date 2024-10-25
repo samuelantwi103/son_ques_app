@@ -1,3 +1,6 @@
+// pages/student/assessments/quiz.dart
+
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -5,13 +8,11 @@ import 'package:sonmit/components/button.dart';
 import 'package:sonmit/components/card.dart';
 import 'package:sonmit/components/progress_indicator.dart';
 import 'package:sonmit/components/timer.dart';
-import 'package:sonmit/pages/student/assessments/assesment.dart';
-import 'package:sonmit/pages/student/home.dart';
 import 'package:sonmit/services/callback.dart';
 
 class QuizPage extends StatefulWidget {
   final String title;
-  final bool isChecking; // Viewing Scores
+  final bool isChecking; // Viewing Scores?
 
   const QuizPage({
     super.key,
@@ -24,6 +25,11 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  double progress = 1.0; // Initial progress is full (1.0)
+
+  // answers from user
+  bool isSubmitted = false;
+
   // Questions
   final List<Map<String, dynamic>> questions = [
     {
@@ -48,20 +54,16 @@ class _QuizPageState extends State<QuizPage> {
     // Add more questions here...
   ];
 
-  List<String?> selectedAnswers = []; // answers from user
-  bool isSubmitted = false;
+  List<String?> selectedAnswers = [];
 
   @override
   void initState() {
-    super.initState();
     selectedAnswers = widget.isChecking
-        ? ['Madrid', 'Mars. Elon Musk favourite next stop for his ambitions']
+        ? [null, 'Mars. Elon Musk favourite next stop for his ambitions']
         : List<String?>.filled(questions.length, null);
     if (widget.isChecking) isSubmitted = true;
-    debugPrint("Hello");
+    super.initState();
   }
-
-  double progress = 1.0; // Initial progress is full (1.0)
 
   @override
   Widget build(BuildContext context) {
@@ -75,37 +77,37 @@ class _QuizPageState extends State<QuizPage> {
                 ? null
                 : [
                     Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: CountdownTimer(
-                          hours: 0,
-                          minutes: 1,
-                          onProgress: (timerprogress) {
-                            setState(() {
-                              progress = timerprogress;
-                            });
-                          },
-                          onTimerComplete: () {
-                            callDialog(
-                                context: context,
-                                showTitle: false,
-                                showCancel: false,
-                                barrierDismissible: false,
-                                content: Text(
-                                  "Session ended!",
-                                  style: TextStyle(fontSize: 20),
-                                ),
-                                title: "",
-                                onConfirm: () {
-                                  Navigator.pop(context);
-                                  Navigator.pop(context);
-                                  Navigator.pushReplacement(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => HomePage(),
-                                      ));
-                                });
-                          },
-                        )),
+                      padding: const EdgeInsets.all(8.0),
+                      child: CountdownTimer(
+                        hours: 0,
+                        minutes: 1,
+                        onProgress: (timerProgress) {
+                          setState(() {
+                            progress = timerProgress;
+                          });
+                        },
+                        onTimerComplete: () {
+                          // Put Submit Logic Here
+
+                          // Custom Navigation: Do not touch
+                          Navigator.pop(context);
+                          callDialog(
+                            context: context,
+                            showTitle: false,
+                            showCancel: false,
+                            barrierDismissible: false,
+                            content: Text(
+                              "Session ended!",
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            title: "",
+                            showConfirm: false,
+                            onConfirm: () {},
+                            timeDialog: Duration(seconds: 3),
+                          );
+                        },
+                      ),
+                    ),
                   ],
             bottom: widget.isChecking
                 ? null
@@ -141,9 +143,23 @@ class _QuizPageState extends State<QuizPage> {
                     children: [
                       Text(
                         "${questionIndex + 1}. ${questions[questionIndex]["questionText"]}",
-                        style: GoogleFonts.dmSans(fontWeight: FontWeight.w600),
+                        style: GoogleFonts.dmSans(
+                          fontWeight: FontWeight.w600,
+                          fontSize: 16,
+                        ),
                       ),
                       const SizedBox(height: 10),
+                      if (selectedAnswers[questionIndex] == null &&
+                          widget.isChecking)
+                        Text(
+                          "No answers selected",
+                          style: GoogleFonts.dmSans(
+                            fontWeight: FontWeight.w600,
+                            // fontSize: 16,
+                            color: Theme.of(context).colorScheme.error,
+                          ),
+                        ),
+                      // const SizedBox(height: 10),
                       Column(
                         children: questions[questionIndex]["options"]
                             .map<Widget>((String option) {
@@ -152,8 +168,8 @@ class _QuizPageState extends State<QuizPage> {
                                   questions[questionIndex]
                                       ["correctAnswerIndex"]];
 
-                          debugPrint(
-                              "option: $option $questionIndex: $isCorrect");
+                          // debugPrint(
+                          //     "option: $option $questionIndex: $isCorrect");
                           // debugPrint("");
 
                           // Please do everything about this tile here
@@ -174,16 +190,18 @@ class _QuizPageState extends State<QuizPage> {
                             // when an option is tapped
                             onTap: () {
                               if (!isSubmitted) {
-                                setState(() {
-                                  selectedAnswers[questionIndex] = option;
-                                  // ScaffoldMessenger.of(context).showSnackBar(
-                                  //   SnackBar(
-                                  //     content: Text(
-                                  //       selectedAnswers.toString(),
-                                  //     ),
-                                  //   ),
-                                  // );
-                                });
+                                // setState(() {
+                                selectedAnswers[questionIndex] = option;
+                                debugPrint("Option: $option");
+                                // ScaffoldMessenger.of(context).showSnackBar(
+                                //   SnackBar(
+                                //     content: Text(
+                                //       selectedAnswers.toString(),
+                                //     ),
+                                //   ),
+                                // );
+                                // });
+                                setState(() {});
                               }
                             },
                           );

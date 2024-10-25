@@ -1,7 +1,6 @@
+// pages/student/settings.dart
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:sonmit/components/card.dart';
-import 'package:sonmit/pages/student/assessments/quiz.dart';
 import 'package:sonmit/themes/theme_switch.dart';
 
 class UserSettingsPage extends StatefulWidget {
