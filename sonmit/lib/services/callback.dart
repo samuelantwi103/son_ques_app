@@ -20,7 +20,6 @@ Color getProgressColor({
   }
 }
 
-
 void callBottomSheet({
   required BuildContext context,
   required String title,
@@ -64,6 +63,7 @@ void callDialog({
   required Widget content,
   required String title,
   required VoidCallback onConfirm,
+  // VoidCallbackAction? onCancel,
   bool barrierDismissible = true,
   bool showTitle = true,
   bool showCancel = true,
@@ -83,24 +83,16 @@ void callDialog({
         });
       }
 
-      return AlertDialog(
-        title: showTitle ? Text(title) : null,
-        content: content,
-        actions: [
-          if (showCancel)
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context); // Close dialog on cancel
-              },
-              child: Text('Cancel'),
-            ),
-          if (showConfirm)
-            TextButton(
-              onPressed: onConfirm,
-              child: Text('Confirm'),
-            ),
-        ],
-      );
+      return PopupDialog(
+          title: title,
+          message: content,
+          onConfirm: onConfirm,
+          showTitle: showTitle,
+          showCancel: showCancel,
+          showConfirm: showConfirm,
+          onCancel: () {
+            Navigator.pop(context);
+          });
     },
   );
 }

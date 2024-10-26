@@ -440,7 +440,7 @@ class MockCard extends StatelessWidget {
                     ),
                     FullButton(
                         onPressed: onStart,
-                        text: "Start Quiz",
+                        text: "Start Exam",
                         enabled: score == null ? false : true),
                   ]),
             SizedBox(
@@ -536,3 +536,4 @@ class OptionTile extends StatelessWidget {
     );
   }
 }
+

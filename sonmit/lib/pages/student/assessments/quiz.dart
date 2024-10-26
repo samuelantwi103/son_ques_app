@@ -73,11 +73,13 @@ class _QuizPageState extends State<QuizPage> {
             pinned: true,
             leading: CupertinoNavigationBarBackButton(
               onPressed: () {
+                widget.isChecking?Navigator.pop(context):
                 callDialog(
                     context: context,
                     content: Text(
                         "Your current progress will be saved and submitted. \nYou will not be able to edit your responses after this."),
                     title: "End quiz?",
+
                     onConfirm: () {
                       Navigator.pop(context);
                       Navigator.pop(context);
@@ -108,9 +110,12 @@ class _QuizPageState extends State<QuizPage> {
                             showTitle: false,
                             showCancel: false,
                             barrierDismissible: false,
-                            content: Text(
-                              "Session ended!",
-                              style: TextStyle(fontSize: 20),
+                            content: SizedBox(
+                              height: 100,
+                              child: Text(
+                                "Session ended!",
+                                style: TextStyle(fontSize: 20),
+                              ),
                             ),
                             title: "",
                             showConfirm: false,

@@ -1,3 +1,4 @@
+// components/button.dart
 import 'package:flutter/material.dart';
 
 // ROUNDED Button
@@ -123,7 +124,7 @@ class FullOutlineButton extends StatelessWidget {
         maxWidth: 300,
       ),
       child: MaterialButton(
-        onPressed: enabled? onPressed:null,
+        onPressed: enabled ? onPressed : null,
         // disabledColor:
         //     Theme.of(context).colorScheme.primaryContainer.withOpacity(0.5),
 
@@ -137,7 +138,7 @@ class FullOutlineButton extends StatelessWidget {
                 .colorScheme
                 .primaryContainer
                 .withOpacity(enabled ? 1 : 0.5),
-            width: 2,
+            width: 3,
           ),
         ),
         // style: ButtonStyle(
@@ -245,13 +246,16 @@ class SmoothButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.amber[200],
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          borderRadius: BorderRadius.circular(10),
         ),
         padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
       ),
-      child: Text(text, style: const TextStyle(color: Colors.black)),
+      child: Text(
+        text,
+        style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
+      ),
     );
   }
 }

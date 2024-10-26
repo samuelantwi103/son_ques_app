@@ -1,4 +1,4 @@
-// pages/login.dart
+// pages/signin_page.dart
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
@@ -130,7 +130,7 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
                         maxWidth: 500,
                         minWidth: 300,
                       ),
-                      padding: EdgeInsets.symmetric(horizontal: 10),
+                      padding: EdgeInsets.symmetric(horizontal: 10, vertical: 20),
                       child: SingleChildScrollView(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -139,6 +139,9 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
                             AnimatedContainer(
                               duration: Duration(seconds: 1),
                               height: 0.3 * MediaQuery.sizeOf(context).height,
+                              constraints: BoxConstraints(
+                                minHeight: 150
+                              ),
                               child:
                                   Image.asset("assets/sonmit-transparent.png"),
                             ),
