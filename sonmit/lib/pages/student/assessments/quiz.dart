@@ -1,6 +1,5 @@
 // pages/student/assessments/quiz.dart
 
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -72,7 +71,20 @@ class _QuizPageState extends State<QuizPage> {
         slivers: [
           SliverAppBar.medium(
             pinned: true,
-            leading: CupertinoNavigationBarBackButton(),
+            leading: CupertinoNavigationBarBackButton(
+              onPressed: () {
+                callDialog(
+                    context: context,
+                    content: Text(
+                        "Your current progress will be saved and submitted. \nYou will not be able to edit your responses after this."),
+                    title: "End quiz?",
+                    onConfirm: () {
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    });
+                // Navigator.pop(context);
+              },
+            ),
             actions: widget.isChecking
                 ? null
                 : [
