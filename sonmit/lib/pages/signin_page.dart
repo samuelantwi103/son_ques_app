@@ -95,8 +95,11 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        extendBody: true,
+        extendBodyBehindAppBar: true,
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+        ),
         body: FadeTransition(
           opacity: logoFadeAnimation,
           child: Container(
