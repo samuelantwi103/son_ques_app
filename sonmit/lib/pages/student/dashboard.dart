@@ -1,3 +1,4 @@
+// pages/student/dashboard.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:intl/intl.dart';
@@ -16,6 +17,10 @@ class _UserDashboardState extends State<UserDashboard> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(15.0, 15, 15, 0),
       child: Scaffold(
+        // extendBodyBehindAppBar: true,
+        // appBar: AppBar(
+        //   backgroundColor: Colors.transparent,
+        // ),
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -32,8 +37,8 @@ class _UserDashboardState extends State<UserDashboard> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 10),
                     child: Text(
                       "Hey Samuel👋",
                       style: Theme.of(context).textTheme.titleLarge,
@@ -43,8 +48,8 @@ class _UserDashboardState extends State<UserDashboard> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 0.0, vertical: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 0.0, vertical: 10),
                     child: Text(
                       "SONMIT Points: 60",
                       style: Theme.of(context).textTheme.bodyLarge,
@@ -54,7 +59,8 @@ class _UserDashboardState extends State<UserDashboard> {
                 Align(
                   alignment: Alignment.centerLeft,
                   child: Container(
-                    margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+                    margin:
+                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     width: 170,
                     // height: 50,
                     // child: CustomCard(
@@ -104,9 +110,10 @@ class _UserDashboardSecondaryState extends State<UserDashboardSecondary> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:SingleChildScrollView(
-        child: SafeArea(
-          child: Column(children: [
+        body: SingleChildScrollView(
+      child: SafeArea(
+        child: Column(
+          children: [
             Align(
               alignment: Alignment.centerRight,
               child: Text(
@@ -127,8 +134,8 @@ class _UserDashboardSecondaryState extends State<UserDashboardSecondary> {
               height: 20,
             ),
           ],
-                ),
         ),
-      ));
+      ),
+    ));
   }
 }
