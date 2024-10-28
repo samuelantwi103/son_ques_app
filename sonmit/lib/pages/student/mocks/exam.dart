@@ -7,9 +7,8 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
-import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_windowmanager/flutter_windowmanager.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:sonmit/components/button.dart';
@@ -18,6 +17,7 @@ import 'package:sonmit/components/pdf_viewer.dart';
 import 'package:sonmit/components/progress_indicator.dart';
 import 'package:sonmit/components/timer.dart';
 import 'package:sonmit/services/callback.dart';
+import 'package:sonmit/services/flags.dart';
 import 'package:sonmit/themes/theme_provider.dart';
 
 class ExamPage extends ConsumerStatefulWidget {
@@ -42,9 +42,9 @@ class _ExamPageState extends ConsumerState<ExamPage> {
 
   // Selected pdf
   File? selectedPdf;
-  int _totalPages = 0;
-  int _currentPage = 0;
-  bool _isPdfReady = false;
+  // int _totalPages = 0;
+  // int _currentPage = 0;
+  // bool _isPdfReady = false;
 
   // isDark
   final container = ProviderContainer();
@@ -52,20 +52,32 @@ class _ExamPageState extends ConsumerState<ExamPage> {
   @override
   void initState() {
     if (widget.isChecking) isSubmitted = true;
+    // disableFlags();
     super.initState();
   }
 
   @override
   void dispose() {
+    // enableFlags();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     // Theme
-    final themeState = ref.watch(themeNotifierProvider);
-    bool isDark = themeState == ThemeMode.dark;
+    // final themeState = ref.watch(themeNotifierProvider);
+    // bool isDark = themeState == ThemeMode.dark;
     // debugPrint("$themeState");
+
+    // // Prevent screenshots
+    // FlutterWindowManager.addFlags(
+    //   FlutterWindowManager.FLAG_SECURE,
+    // );
+
+    // // Keep Screen On
+    // FlutterWindowManager.addFlags(
+    //   FlutterWindowManager.FLAG_KEEP_SCREEN_ON,
+    // );
 
     return Scaffold(
       appBar: AppBar(
@@ -150,15 +162,14 @@ class _ExamPageState extends ConsumerState<ExamPage> {
                   child: selectedPdf != null
                       ? Center(
                           child: ConstrainedBox(
-                            constraints: BoxConstraints(
-                              maxHeight: 1000,
-                              maxWidth: 500,
-                            ),
-                            child: PdfViewer(
-                              selectedPdf: selectedPdf,
-                              // totalPages: _totalPages, currentPage: _currentPage, isPdfReady: _isPdfReady
-                              )
-                          ),
+                              constraints: BoxConstraints(
+                                maxHeight: 1000,
+                                maxWidth: 500,
+                              ),
+                              child: PdfViewer(
+                                selectedPdf: selectedPdf,
+                                // totalPages: _totalPages, currentPage: _currentPage, isPdfReady: _isPdfReady
+                              )),
                         )
                       : Center(
                           child: Text(
@@ -252,7 +263,7 @@ class _ExamPageState extends ConsumerState<ExamPage> {
                 ),
               ],
             )
-            //Marked Script Section
+          //Marked Script Section
           : Center(
               child: Text("Marked Script"),
             ),
@@ -274,7 +285,7 @@ class _ExamPageState extends ConsumerState<ExamPage> {
     if (result != null) {
       setState(() {
         selectedPdf = File(result.files.single.path!);
-        _isPdfReady = false;
+        // _isPdfReady = false;
       });
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(content: Text("PDF added")),
@@ -285,9 +296,9 @@ class _ExamPageState extends ConsumerState<ExamPage> {
   Future<void> _removePdf(BuildContext context) async {
     setState(() {
       selectedPdf = null;
-      _isPdfReady = false;
-      _currentPage = 0;
-      _totalPages = 0;
+      // _isPdfReady = false;
+      // _currentPage = 0;
+      // _totalPages = 0;
     });
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text("PDF removed")),
