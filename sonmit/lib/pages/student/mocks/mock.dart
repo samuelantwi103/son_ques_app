@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sonmit/components/card.dart';
 import 'package:sonmit/pages/student/mocks/exam.dart';
 import 'package:sonmit/services/callback.dart';
+import 'package:sonmit/services/transitions.dart';
 
 class MockPage extends StatefulWidget {
   const MockPage({super.key});
@@ -120,8 +121,8 @@ class _MockPageState extends State<MockPage> {
                       onViewScore: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => ExamPage(
+                          slideRightTransition(
+                            ExamPage(
                               title: mock["title"],
                               isChecking: true,
                             ),
@@ -138,8 +139,8 @@ class _MockPageState extends State<MockPage> {
                               Navigator.pop(context);
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => ExamPage(
+                                slideLeftTransition(
+                                  ExamPage(
                                     title: mock["title"],
                                   ),
                                 ),

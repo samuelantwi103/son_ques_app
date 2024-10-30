@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:sonmit/components/card.dart';
 import 'package:sonmit/pages/student/assessments/quiz.dart';
 import 'package:sonmit/services/callback.dart';
+import 'package:sonmit/services/transitions.dart';
 
 class AssesmentPage extends StatefulWidget {
   const AssesmentPage({super.key});
@@ -120,8 +121,8 @@ class _AssesmentPageState extends State<AssesmentPage> {
                       onViewScore: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(
-                            builder: (context) => QuizPage(
+                          slideRightTransition(
+                           QuizPage(
                               title: assessment["title"],
                               isChecking: true,
                             ),
@@ -138,8 +139,8 @@ class _AssesmentPageState extends State<AssesmentPage> {
                               Navigator.pop(context);
                               Navigator.push(
                                 context,
-                                MaterialPageRoute(
-                                  builder: (context) => QuizPage(
+                                slideLeftTransition(
+                                  QuizPage(
                                     title: assessment["title"],
                                   ),
                                 ),

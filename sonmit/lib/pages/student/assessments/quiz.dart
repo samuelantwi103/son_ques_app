@@ -1,8 +1,10 @@
 // pages/student/assessments/quiz.dart
 
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_windowmanager/flutter_windowmanager.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 import 'package:sonmit/components/button.dart';
 import 'package:sonmit/components/card.dart';
@@ -10,6 +12,7 @@ import 'package:sonmit/components/progress_indicator.dart';
 import 'package:sonmit/components/timer.dart';
 import 'package:sonmit/services/callback.dart';
 import 'package:sonmit/services/flags.dart';
+// import 'package:sonmit/services/flags.dart';
 
 class QuizPage extends StatefulWidget {
   final String title;
@@ -30,6 +33,8 @@ class _QuizPageState extends State<QuizPage> {
 
   // answers from user
   bool isSubmitted = false;
+
+  bool isClosing = false;
 
   // Questions
   final List<Map<String, dynamic>> questions = [
@@ -63,37 +68,41 @@ class _QuizPageState extends State<QuizPage> {
         ? [null, 'Mars. Elon Musk favourite next stop for his ambitions']
         : List<String?>.filled(questions.length, null);
     if (widget.isChecking) isSubmitted = true;
-    disableFlags();
+    if (Platform.isAndroid) disableFlags();
+    if (widget.isChecking) isClosing = true;
     super.initState();
   }
 
   @override
   void dispose() {
-    enableFlags();
+    if (Platform.isAndroid) enableFlags();
     super.dispose();
   }
+  // bool exitSession = false;
 
   @override
   Widget build(BuildContext context) {
-    bool exitSession = false;
-
     return PopScope(
-      canPop:widget.isChecking? true:true,
+      canPop: isClosing,
       onPopInvokedWithResult: (didPop, result) {
-        // callDialog(
-        //   context: context,
-        //   content: Text(
-        //       "Your current progress will be saved and submitted. \nYou will not be able to edit your responses after this."),
-        //   title: "End quiz?",
-        //   onConfirm: () {
-        //     setState(() {
-        //       exitSession = true;
-        //     });
-        //     Navigator.pop(context);
-        //     Navigator.pop(context);
-        //   },
-        // );
-      
+        if (!widget.isChecking) debugPrint("dialog called");
+        callDialog(
+          context: context,
+          content: Text(
+              "Your current progress will be saved and submitted. \nYou will not be able to edit your responses after this.\nConfirm this dialog and go back to end this session"),
+          title: "End quiz?",
+          onConfirm: () {
+            debugPrint("isClosing: $isClosing");
+            setState(() {
+              isClosing = true;
+            });
+            Navigator.pop(context);
+            // Navigator.pop(context);
+            // if (isClosing) {
+            // }
+          },
+          // Navigator.pop(context);
+        );
       },
       child: Scaffold(
         body: CustomScrollView(
@@ -141,9 +150,11 @@ class _QuizPageState extends State<QuizPage> {
                               barrierDismissible: false,
                               content: SizedBox(
                                 height: 100,
-                                child: Text(
-                                  "Session ended!",
-                                  style: TextStyle(fontSize: 20),
+                                child: Center(
+                                  child: Text(
+                                    "Session ended!",
+                                    style: TextStyle(fontSize: 20),
+                                  ),
                                 ),
                               ),
                               title: "",

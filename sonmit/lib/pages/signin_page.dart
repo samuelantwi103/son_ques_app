@@ -298,8 +298,10 @@ class SigninPageState extends State<SigninPage> with TickerProviderStateMixin {
                                       SnackBar(content: Text('Logging in with code: $code pin:$pin')));
                                   Navigator.push(
                                       context,
+                                      // slideLeftTransition(HomePage())
                                       MaterialPageRoute(
-                                          builder: (context) => HomePage()));
+                                          builder: (context) => HomePage())
+                                          );
                                   // LoginLoading(context);
                                 }
                               },
