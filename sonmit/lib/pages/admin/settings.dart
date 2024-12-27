@@ -1,66 +1,28 @@
-// pages/student/settings.dart
 import 'package:flutter/material.dart';
 import 'package:sonmit/components/card.dart';
 import 'package:sonmit/pages/signin_page.dart';
 import 'package:sonmit/services/transitions.dart';
 import 'package:sonmit/themes/theme_switch.dart';
 
-class UserSettingsPage extends StatefulWidget {
-  const UserSettingsPage({super.key});
+class AdminSettingsPage extends StatefulWidget {
+  // final String title;
+  const AdminSettingsPage({super.key});
 
   @override
-  State<UserSettingsPage> createState() => _UserSettingsPageState();
+  State<AdminSettingsPage> createState() => _AdminSettingsPageState();
 }
 
-class _UserSettingsPageState extends State<UserSettingsPage> {
-  bool isChecking = true;
-  bool isSubmitted = false;
-
+class _AdminSettingsPageState extends State<AdminSettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: CustomScrollView(
-      slivers: [
-        SliverAppBar(
-          expandedHeight: 150.0,
-          pinned: true,
-          leading: SizedBox(),
-          flexibleSpace: FlexibleSpaceBar(
-            centerTitle: true,
-            title: Text(
-              "Settings",
-              style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: Theme.of(context).colorScheme.secondary,
-                  ),
-            ),
-            // background: Image.asset(
-            //   'assets/books_1.jpeg',
-            //   fit: BoxFit.cover,
-            // ),
-          ),
-        ),
-        // SliverPadding(
-        //   padding: const EdgeInsets.fromLTRB(15.0, 15, 15, 0),
-        //   sliver: SliverToBoxAdapter(
-        //     child: Column(
-        //       crossAxisAlignment: CrossAxisAlignment.start,
-        //       children: [
-        //         SizedBox(height: 20),
-        //         Text(
-        //           "Mocks",
-        //           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-        //                 fontWeight: FontWeight.bold,
-        //                 color: Theme.of(context).colorScheme.secondary,
-        //               ),
-        //         ),
-        //         SizedBox(height: 20),
-        //       ],
-        //     ),
-        //   ),
-        // ),
-        SliverToBoxAdapter(
-          child: SingleChildScrollView(
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
+        leading: SizedBox(),
+        title: Text("S E T T I N G S"),
+        centerTitle: true,
+      ),
+      body: SingleChildScrollView(
         physics: BouncingScrollPhysics(),
         padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
         child: Column(
@@ -110,27 +72,6 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                     height: 30,
                   ),
                   Row(
-                    children: [
-                      Text(
-                        "ID: ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "SON1001 ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(fontWeight: FontWeight.normal),
-                      )
-                    ],
-                  ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -142,7 +83,7 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                     ),
                     Flexible(
                       child: Text(
-                        "Student One Name",
+                        "Tutor One Name",
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge
@@ -150,7 +91,28 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
                       ),
                     )
                   ],
-                )
+                ),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        "Name: ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "Tutor One Name ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.normal),
+                      )
+                    ],
+                  )
                 ],
               ),
             ),
@@ -214,8 +176,10 @@ class _UserSettingsPageState extends State<UserSettingsPage> {
           ],
         ),
       ),
-        ),
-      ],
-    ));
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {},
+      //   child: Icon(Icons.add_comment_outlined),
+      // ),
+    );
   }
 }

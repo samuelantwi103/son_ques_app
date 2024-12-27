@@ -10,7 +10,8 @@ import 'package:sonmit/pages/student/settings.dart';
 // import 'package:sonmit/pages/student/secondarybody.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  final bool reset;
+  const HomePage({super.key, this.reset = false,});
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -20,6 +21,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return AppLayout(
+      reset: widget.reset,
       destinationData: [
         {
           'icon': Icon(Icons.dashboard_outlined),
@@ -47,7 +49,7 @@ class _HomePageState extends State<HomePage> {
           'selectedIcon': Icon(Icons.settings),
           'label': 'Settings',
           'page': UserSettingsPage(),
-          'secondaryPage': UserDashboard(),
+          'secondaryPage': null,
         },
       ],
     );

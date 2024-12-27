@@ -7,7 +7,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:sonmit/components/button.dart';
@@ -18,7 +18,7 @@ import 'package:sonmit/components/timer.dart';
 import 'package:sonmit/services/callback.dart';
 import 'package:sonmit/services/flags.dart';
 
-class ExamPage extends ConsumerStatefulWidget {
+class ExamPage extends StatefulWidget {
   final String title;
   final bool isChecking; // Viewing Scores?
 
@@ -29,10 +29,10 @@ class ExamPage extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<ExamPage> createState() => _ExamPageState();
+  State<ExamPage> createState() => _ExamPageState();
 }
 
-class _ExamPageState extends ConsumerState<ExamPage> {
+class _ExamPageState extends State<ExamPage> {
   double progress = 1.0; // Initial progress is full (1.0)
 
   // answers from user
@@ -41,6 +41,8 @@ class _ExamPageState extends ConsumerState<ExamPage> {
   // Selected pdf
   File? selectedPdf;
   bool isClosing = false;
+
+  bool isReady = false;
 
   @override
   void initState() {
@@ -59,7 +61,7 @@ class _ExamPageState extends ConsumerState<ExamPage> {
 
   @override
   Widget build(BuildContext context) {
-    String questionPDF = "https://pdfobject.com/pdf/sample.pdf";
+    String questionPDF = "https://www.sldttc.org/allpdf/21583473018.pdf";
 
     return PopScope(
       canPop: isClosing,
@@ -107,51 +109,55 @@ class _ExamPageState extends ConsumerState<ExamPage> {
               : [
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: CountdownTimer(
-                      hours: 1,
-                      minutes: 1,
-                      onProgress: (timerProgress) {
-                        setState(() {
-                          progress = timerProgress;
-                        });
-                      },
-                      onTimerComplete: () {
-                        // Put Submit Logic Here
+                    child: isReady
+                        ? CountdownTimer(
+                            hours: 0,
+                            minutes: 1,
+                            onProgress: (timerProgress) {
+                              setState(() {
+                                progress = timerProgress;
+                              });
+                            },
+                            onTimerComplete: () {
+                              // Put Submit Logic Here
 
-                        // Custom Navigation: Do not touch
-                        Navigator.pop(context);
-                        callDialog(
-                          context: context,
-                          showTitle: false,
-                          showCancel: false,
-                          barrierDismissible: false,
-                          content: SizedBox(
-                            height: 100,
-                            child: Center(
-                              child: Text(
-                                "Session ended!",
-                                style: TextStyle(fontSize: 20),
-                              ),
-                            ),
-                          ),
-                          title: "",
-                          showConfirm: false,
-                          onConfirm: () {},
-                          timeDialog: Duration(seconds: 3),
-                        );
-                      },
-                    ),
+                              // Custom Navigation: Do not touch
+                              Navigator.pop(context);
+                              callDialog(
+                                context: context,
+                                showTitle: false,
+                                showCancel: false,
+                                barrierDismissible: false,
+                                content: SizedBox(
+                                  height: 100,
+                                  child: Center(
+                                    child: Text(
+                                      "Session ended!",
+                                      style: TextStyle(fontSize: 20),
+                                    ),
+                                  ),
+                                ),
+                                title: "",
+                                showConfirm: false,
+                                onConfirm: () {},
+                                timeDialog: Duration(seconds: 3),
+                              );
+                            },
+                          )
+                        : null,
                   ),
                 ],
           bottom: widget.isChecking
               ? null
-              : PreferredSize(
-                  preferredSize: Size(double.maxFinite, 10),
-                  child: SmoothProgressIndicator(
-                    minHeight: 10,
-                    value: progress,
-                  ),
-                ),
+              : isReady
+                  ? PreferredSize(
+                      preferredSize: Size(double.maxFinite, 10),
+                      child: SmoothProgressIndicator(
+                        minHeight: 10,
+                        value: progress,
+                      ),
+                    )
+                  : null,
           title: Text(
             widget.title,
             style: Theme.of(context)
@@ -173,6 +179,15 @@ class _ExamPageState extends ConsumerState<ExamPage> {
                               // maxWidth: 500,
                             ),
                             child: PdfViewer(
+                              getReadyState: (ready) {
+                                WidgetsBinding.instance.addPostFrameCallback(
+                                  (timeStamp) {
+                                    setState(() {
+                                      isReady = ready;
+                                    });
+                                  },
+                                );
+                              },
                               selectedPdf: questionPDF,
                               // totalPages: _totalPages, currentPage: _currentPage, isPdfReady: _isPdfReady
                             )),

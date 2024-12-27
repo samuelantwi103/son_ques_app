@@ -7,13 +7,15 @@ class AppLayout extends StatefulWidget {
   final bool showSecondaryBody;
   final Widget? trailingNavRail;
   final GlobalKey<ScaffoldState>? scaffoldKey;
+  bool reset;
 
-  const AppLayout({
+  AppLayout({
     super.key,
     required this.destinationData,
     this.showSecondaryBody = true,
     this.trailingNavRail,
     this.scaffoldKey,
+    this.reset = false,
   });
 
   @override
@@ -24,17 +26,21 @@ bool extended = false;
 int selectedIndex = 0;
 
 class _AppLayoutState extends State<AppLayout> {
- 
   @override
   void initState() {
-
+    selectedIndex = 0;
+    widget.reset = false;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-        // Dynamically build the NavigationDestination list
-   final destinations = widget.destinationData.map((data) {
+    setState(() {
+      if (widget.reset) {}
+      ;
+    });
+    // Dynamically build the NavigationDestination list
+    final destinations = widget.destinationData.map((data) {
       return NavigationDestination(
         icon: data['icon'] as Icon,
         label: data['label'] as String,
@@ -42,25 +48,25 @@ class _AppLayoutState extends State<AppLayout> {
       );
     }).toList();
 
-   final secondaryChildren = widget.destinationData.map(
+    final secondaryChildren = widget.destinationData.map(
       (data) {
         return data['secondaryPage'];
       },
     ).toList();
 
-   final children = widget.destinationData.map(
+    final children = widget.destinationData.map(
       (data) {
         return data['page'];
       },
     ).toList();
 
-   final smallActions = widget.destinationData.map(
+    final smallActions = widget.destinationData.map(
       (data) {
         return IconButton(onPressed: () {}, icon: data['icon'] as Icon);
       },
     ).toList();
 
-   final largeActions = widget.destinationData.map(
+    final largeActions = widget.destinationData.map(
       (data) {
         return TextButton(
           onPressed: () {},

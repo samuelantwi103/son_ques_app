@@ -63,7 +63,7 @@ class _UserDashboardState extends State<UserDashboard> {
                         const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     width: 170,
                     // height: 50,
-                    // child: CustomCard(
+                    // child: ElevatedCard(
                     // child: Center(
                     child: Text(
                       "Announcements",
@@ -114,6 +114,9 @@ class _UserDashboardSecondaryState extends State<UserDashboardSecondary> {
       child: SafeArea(
         child: Column(
           children: [
+            SizedBox(
+              height: 10,
+            ),
             Align(
               alignment: Alignment.centerRight,
               child: Text(
@@ -124,11 +127,94 @@ class _UserDashboardSecondaryState extends State<UserDashboardSecondary> {
             const SizedBox(
               height: 20,
             ),
-            SizedBox(
-              height: MediaQuery.sizeOf(context).height - 100,
-              child: Center(
-                child: Text("Profile"),
-              ),
+            Center(
+              child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              // Text(
+              //   "Profile",
+              //   style: Theme.of(context).textTheme.titleLarge,
+              // ),
+              SizedBox(width: 10),
+              
+            ],
+                        ),
+                        SizedBox(
+            height: 30,
+                        ),
+                        Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Align(
+                  child: ElevatedCard(
+                    padding: EdgeInsets.all(30),
+                    borderRadius: BorderRadius.circular(100),
+                    child: Icon(
+                      Icons.person,
+                      size: 80,
+                      color: Theme.of(context).colorScheme.primary,
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      "ID: ",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Text(
+                      "SON1001 ",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.copyWith(fontWeight: FontWeight.normal),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "Name: ",
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyLarge
+                          ?.copyWith(fontWeight: FontWeight.bold),
+                    ),
+                    Flexible(
+                      child: Text(
+                        "Student One Name",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.normal),
+                      ),
+                    )
+                  ],
+                )
+              ],
+            ),
+                        ),
+                        SizedBox(
+            height: 30,
+                        ),
+                        
+                      ],
+                    ),
             ),
             const SizedBox(
               height: 20,

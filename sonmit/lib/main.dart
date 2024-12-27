@@ -1,65 +1,51 @@
 // ignore_for_file: prefer_const_constructors
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:provider/provider.dart';
 import 'package:sonmit/components/splash.dart';
+import 'package:sonmit/themes/theme.dart';
 import 'package:sonmit/themes/theme_provider.dart';
 
-void main() {
+Future main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  // await Permission.camera.request();
+  // await Permission.microphone.request();
+  // await Permission.storage.request();
+
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.windows) {
+    final availableVersion = await WebViewEnvironment.getAvailableVersion();
+    assert(availableVersion != null,
+        'Failed to find an installed WebView2 runtime or non-stable Microsoft Edge installation.');
+
+    WebViewEnvironment webview  = await WebViewEnvironment.create(
+        settings: WebViewEnvironmentSettings(userDataFolder: 'custom_path'));
+  }
+
+  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.android) {
+    await InAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
+  }
   runApp(
-    ProviderScope(
-      child: const MyApp(),
+    ChangeNotifierProvider(
+    create: (context) => ThemeNotifier(),
+    child:
+       const MyApp(),
     ),
   );
 }
 
-class MyApp extends ConsumerWidget {
+class MyApp extends StatelessWidget {
   const MyApp({super.key});
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final ThemeMode themeMode = ref.watch(themeNotifierProvider);
+  Widget build(BuildContext context) {
+    final ThemeMode themeMode = Provider.of<ThemeNotifier>(context).themeData;
     return MaterialApp(
         title: 'SONMIT',
         debugShowCheckedModeBanner: false,
-        theme:
-            // MaterialTheme(TextTheme()).light().copyWith(
-            //       snackBarTheme: SnackBarThemeData(
-            //         showCloseIcon: true,
-            //         behavior: SnackBarBehavior.floating,
-            //       ),
-            //     ),
-
-            ThemeData(
-                colorScheme: ColorScheme.fromSeed(
-                  dynamicSchemeVariant: DynamicSchemeVariant.content,
-                  seedColor: Color(0xffcf5500),
-                ),
-                useMaterial3: true,
-                snackBarTheme: SnackBarThemeData(
-                  showCloseIcon: true,
-                  behavior: SnackBarBehavior.floating,
-                )),
-        darkTheme:
-            // MaterialTheme(TextTheme()).dark().copyWith(
-            //       snackBarTheme: SnackBarThemeData(
-            //         showCloseIcon: true,
-            //         behavior: SnackBarBehavior.floating,
-            //       ),
-            //     ),
-
-            ThemeData(
-                colorScheme: ColorScheme.fromSeed(
-                  dynamicSchemeVariant: DynamicSchemeVariant.content,
-                  seedColor: Color(0xffcf5500),
-                  // tertiary: Color(0xffcf5500),
-                  brightness: Brightness.dark,
-                ),
-                brightness: Brightness.dark,
-                useMaterial3: true,
-                snackBarTheme: SnackBarThemeData(
-                  showCloseIcon: true,
-                  behavior: SnackBarBehavior.floating,
-                )),
+        theme: lightTheme(context),
+            
+        darkTheme:darkTheme(context),
         themeMode: themeMode,
         home: SplashScreen());
   }

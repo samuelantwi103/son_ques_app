@@ -3,20 +3,29 @@
 // components/pdf_viewer.dart
 
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:provider/provider.dart';
+
 import 'package:sonmit/themes/theme_provider.dart';
 import 'package:syncfusion_flutter_core/theme.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-class PdfViewer extends ConsumerStatefulWidget {
+class PdfViewer extends StatefulWidget {
   // Selected pdf
   String selectedPdf;
+  final PdfScrollDirection? scrollDirection;
+  final double? height;
+  final EdgeInsetsGeometry? padding;
+  final Function(bool ready)? getReadyState;
 
   // bool isDark;
 
   PdfViewer({
     super.key,
     required this.selectedPdf,
+    this.scrollDirection,
+    this.height,
+    this.padding,
+    this.getReadyState,
     // required this.totalPages,
     // required this.currentPage,
     // required this.isPdfReady,
@@ -24,19 +33,27 @@ class PdfViewer extends ConsumerStatefulWidget {
   });
 
   @override
-  ConsumerState<PdfViewer> createState() => _PdfViewerState();
+  State<PdfViewer> createState() => _PdfViewerState();
 }
 
-class _PdfViewerState extends ConsumerState<PdfViewer> {
+class _PdfViewerState extends State<PdfViewer> {
   int totalPages = 0;
   int currentPage = 0;
   bool isPdfReady = false;
+  @override
+  void initState() {
+    if (widget.getReadyState != null) {
+      // setState(() {
+        widget.getReadyState!(isPdfReady);
+      // });
+    }
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    // Theme
-    final themeState = ref.watch(themeNotifierProvider);
-    bool isDark = themeState == ThemeMode.dark;
+    final isDark = Provider.of<ThemeNotifier>(context, listen: true).isDarkMode;
+
     return Stack(
       children: [
         Stack(
@@ -44,7 +61,8 @@ class _PdfViewerState extends ConsumerState<PdfViewer> {
           children: [
             Container(
               constraints: BoxConstraints(
-                  maxHeight: MediaQuery.of(context).size.height * 0.8),
+                  maxHeight: widget.height ??
+                      MediaQuery.of(context).size.height * 0.8),
               child: SfTheme(
                 data: SfThemeData(
                     brightness: isDark ? Brightness.dark : Brightness.light,
@@ -54,12 +72,16 @@ class _PdfViewerState extends ConsumerState<PdfViewer> {
                 child: SfPdfViewer.network(
                   widget.selectedPdf,
                   canShowTextSelectionMenu: false,
+                  scrollDirection: widget.scrollDirection,
                   enableTextSelection: false,
                   enableDocumentLinkAnnotation: false,
                   onDocumentLoaded: (details) {
                     setState(() {
                       totalPages = details.document.pages.count;
                       isPdfReady = true;
+                      if (widget.getReadyState != null) {
+                        widget.getReadyState!(isPdfReady);
+                      }
                     });
                   },
                   onPageChanged: (details) {
@@ -83,8 +105,13 @@ class _PdfViewerState extends ConsumerState<PdfViewer> {
             //   )
           ],
         ),
-        if (!isPdfReady) const Center(child: CircularProgressIndicator()),
+        // if (!isPdfReady) Container(height: double.maxFinite,constraints: BoxConstraints(
+        //   maxHeight: 200
+        // ),child: const Center(child: CircularProgressIndicator())),
       ],
     );
   }
+  // getReadyState(isPdfReady){
+  //   return isPdfReady;
+  // }
 }

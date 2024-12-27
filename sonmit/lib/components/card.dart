@@ -1,42 +1,135 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 // components/card.dart
 import 'package:flutter/material.dart';
 import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:sonmit/components/button.dart';
+import 'package:sonmit/components/pdf_viewer.dart';
+import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
-class CustomCard extends StatelessWidget {
-  Widget child;
+class DebossedCard extends StatelessWidget {
+  final Widget child;
+  final Color? color;
+  final Color? shadowColorHigh;
+  final Color? shadowColorLow;
+  final BorderRadiusGeometry? borderRadius;
+  final EdgeInsetsGeometry? padding;
 
-  CustomCard({
+  const DebossedCard({
     super.key,
     required this.child,
+    this.padding,
+    this.color,
+    this.borderRadius,
+    this.shadowColorHigh,
+    this.shadowColorLow,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+      padding: EdgeInsets.all(6),
+      decoration: BoxDecoration(
+        border: Border(
+          bottom: BorderSide(
+            color: shadowColorHigh?.withOpacity(0.5) ??
+                Theme.of(context).colorScheme.surfaceContainer.withOpacity(0.8),
+          ),
+          top: BorderSide(
+            color: shadowColorHigh?.withOpacity(0.5) ??
+                Theme.of(context).colorScheme.surfaceContainer.withOpacity(0.8),
+          ),
+          right: BorderSide(
+            color: shadowColorHigh?.withOpacity(0.5) ??
+                Theme.of(context).colorScheme.surfaceContainer.withOpacity(0.8),
+          ),
+          left: BorderSide(
+            color: shadowColorHigh?.withOpacity(0.5) ??
+                Theme.of(context).colorScheme.surfaceContainer.withOpacity(0.8),
+          ),
+        ),
+        borderRadius: borderRadius ?? BorderRadius.circular(50),
+      ),
+      child: Container(
+        padding: padding ?? EdgeInsets.symmetric(horizontal: 20, vertical: 5),
+        // constraints: BoxConstraints(minHeight: 20),
+        decoration: BoxDecoration(
+            color: color ?? Theme.of(context).colorScheme.surface,
+            borderRadius: borderRadius ?? BorderRadius.circular(20),
+            // border: Border.all(
+            //   color: Theme.of(context).colorScheme.surfaceContainer
+            // ),
+
+            boxShadow: [
+              BoxShadow(
+                color: shadowColorLow ??
+                    Theme.of(context).colorScheme.surfaceContainerLowest,
+                blurRadius: 5,
+                spreadRadius: 5,
+                offset: Offset(5, 5),
+              ),
+              BoxShadow(
+                color: shadowColorHigh ??
+                    Theme.of(context)
+                        .colorScheme
+                        .surfaceContainer
+                        .withOpacity(0.8),
+                blurRadius: 5,
+                spreadRadius: 5,
+                offset: Offset(-3, -3),
+              ),
+            ]),
+        child: child,
+      ),
+    );
+  }
+}
+
+class ElevatedCard extends StatelessWidget {
+  final Widget child;
+  final Color? color;
+  final Color? shadowColorHigh;
+  final Color? shadowColorLow;
+  final BorderRadiusGeometry? borderRadius;
+  final EdgeInsetsGeometry? padding;
+
+  const ElevatedCard({
+    super.key,
+    required this.child,
+    this.padding,
+    this.color,
+    this.borderRadius,
+    this.shadowColorHigh,
+    this.shadowColorLow,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: padding ?? EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       // constraints: BoxConstraints(minHeight: 20),
       decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.surface,
-          borderRadius: BorderRadius.circular(20),
+          color: color ?? Theme.of(context).colorScheme.surface,
+          borderRadius: borderRadius ?? BorderRadius.circular(20),
           // border: Border.all(
           //   color: Theme.of(context).colorScheme.surfaceContainer
           // ),
 
           boxShadow: [
             BoxShadow(
-              color: Theme.of(context).colorScheme.surfaceContainerLowest,
+              color: shadowColorLow ??
+                  Theme.of(context).colorScheme.surfaceContainerLowest,
               blurRadius: 5,
               spreadRadius: 5,
               offset: Offset(-3, -3),
             ),
             BoxShadow(
-              color: Theme.of(context)
-                  .colorScheme
-                  .surfaceContainer
-                  .withOpacity(0.8),
+              color: shadowColorHigh ??
+                  Theme.of(context)
+                      .colorScheme
+                      .surfaceContainer
+                      .withOpacity(0.8),
               blurRadius: 5,
               spreadRadius: 5,
               offset: Offset(5, 5),
@@ -67,7 +160,7 @@ class QuizAnnouncementCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: CustomCard(
+      child: ElevatedCard(
         child: Column(
           children: [
             Text(
@@ -122,7 +215,7 @@ class ResultAnnouncementCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: CustomCard(
+      child: ElevatedCard(
         child: Column(
           children: [
             Text(
@@ -186,7 +279,7 @@ class AssessmentCard extends StatelessWidget {
       // ),
       margin: EdgeInsets.only(bottom: 20),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: CustomCard(
+      child: ElevatedCard(
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           // mainAxisSize: MainAxisSize.min,
@@ -247,7 +340,7 @@ class AssessmentCard extends StatelessWidget {
               height: 15,
             ),
             Breakpoints.mediumAndUp.isActive(context)
-            ? Row(children: [
+                ? Row(children: [
                     Expanded(
                       child: FullOutlineButton(
                           onPressed: onViewScore,
@@ -335,7 +428,7 @@ class MockCard extends StatelessWidget {
       // ),
       margin: EdgeInsets.only(bottom: 20),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: CustomCard(
+      child: ElevatedCard(
         child: Column(
           // mainAxisAlignment: MainAxisAlignment.spaceBetween,
           // mainAxisSize: MainAxisSize.min,
@@ -396,7 +489,7 @@ class MockCard extends StatelessWidget {
               height: 15,
             ),
             Breakpoints.mediumAndUp.isActive(context)
-            ? Row(children: [
+                ? Row(children: [
                     Expanded(
                       child: FullOutlineButton(
                           onPressed: onViewScore,
@@ -488,7 +581,9 @@ class OptionTile extends StatelessWidget {
                           ? (isCorrect
                               ? Colors.green.withOpacity(0.2)
                               : Colors.red.withOpacity(0.2))
-                          : Theme.of(context).colorScheme.surfaceContainerHighest
+                          : Theme.of(context)
+                              .colorScheme
+                              .surfaceContainerHighest
                       : Colors.green.withOpacity(0.2))
                   : isSelected
                       ? Theme.of(context).colorScheme.surfaceContainerHighest
@@ -525,15 +620,187 @@ class OptionTile extends StatelessWidget {
               ],
             ),
           ),
+          if (isCorrect && isChecking) Text("Explanation: \n$explanation"),
           if (isCorrect && isChecking)
-          Text("Explanation: \n$explanation"),
-          if (isCorrect && isChecking)
-          SizedBox(
-            height: 10,
-          )
+            SizedBox(
+              height: 10,
+            )
         ],
       ),
     );
   }
 }
 
+class SubjectCard extends StatelessWidget {
+  final String title;
+  final void Function() onTap;
+  const SubjectCard({
+    super.key,
+    required this.title,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: ElevatedCard(
+          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 16),
+          child: Text(
+            title,
+            style: Theme.of(context).textTheme.titleLarge,
+          )),
+    );
+  }
+}
+
+class QuestionMockCard extends StatelessWidget {
+  final String title;
+  final void Function()? onTap;
+  const QuestionMockCard({
+    super.key,
+    required this.title,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: onTap,
+      title: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Text(
+          title,
+          // style: Theme.of(context)
+          //     .textTheme
+          //     .bodySmall,
+        ),
+      ),
+      trailing: IconButton(
+          padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+          onPressed: () {},
+          icon: Icon(Icons.more_vert_rounded)),
+      contentPadding: EdgeInsets.all(0),
+    );
+  }
+}
+
+class QuestionQuizCard extends StatelessWidget {
+  final String question;
+  final Map answers;
+  final void Function()? onTap;
+  const QuestionQuizCard({
+    super.key,
+    required this.question,
+    required this.answers,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+        title: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Text(
+            "Which of the following is a fundamental quantity?",
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        ),
+        subtitle: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: answers["options"].asMap().entries.map<Widget>((entry) {
+              // Explicitly specify the Widget type
+              int index = entry.key;
+              String value = entry.value;
+
+              return Text(
+                "${String.fromCharCode(65 + index)}. $value", // 'A', 'B', 'C', etc.
+                style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontWeight: answers["answer"] == index
+                        ? FontWeight.bold
+                        : FontWeight.normal),
+              );
+            }).toList(), // Convert the mapped entries into a List<Widget>
+          ),
+        ),
+        isThreeLine: true,
+        trailing: IconButton(
+            padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+            onPressed: () {},
+            icon: Icon(Icons.more_vert_rounded)),
+        contentPadding: EdgeInsets.all(0));
+  }
+}
+
+class CreateMockCard extends StatefulWidget {
+  final String title;
+  final ValueChanged<bool?>? onTap;
+  // bool value;
+  final String questionPDF;
+  CreateMockCard({
+    super.key,
+    required this.title,
+    // required this.value,
+    this.onTap,
+    required this.questionPDF,
+  });
+
+  @override
+  State<CreateMockCard> createState() => _CreateMockCardState();
+}
+
+class _CreateMockCardState extends State<CreateMockCard> {
+  bool stateValue = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return CheckboxListTile.adaptive(
+      value: stateValue,
+      onChanged: (value) {
+        setState(() {
+          stateValue = value ?? false;
+        });
+        if (widget.onTap != null) {
+          widget.onTap!(value);
+        }
+      },
+      isThreeLine: true,
+      // onTap: onTap,
+      title: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Text(
+          widget.title,
+          // style: Theme.of(context)
+          //     .textTheme
+          //     .bodySmall,
+        ),
+      ),
+      subtitle: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
+        child: ElevatedCard(
+            borderRadius: BorderRadius.circular(0),
+            padding: EdgeInsets.all(5),
+            child: Center(
+              child: PdfViewer(
+                // getReadyState: (ready) {
+                //   // setState(() {
+                //     isReadyAns = ready;
+                //   // });
+                // },
+                height: 250,
+                selectedPdf: widget.questionPDF,
+                scrollDirection: PdfScrollDirection.horizontal,
+                // totalPages: _totalPages, currentPage: _currentPage, isPdfReady: _isPdfReady
+              ),
+            )),
+      ),
+      // secondary: IconButton(
+      //     padding: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
+      //     onPressed: () {},
+      //     icon: Icon(Icons.more_vert_rounded)),
+      contentPadding: EdgeInsets.all(0),
+    );
+  }
+}
