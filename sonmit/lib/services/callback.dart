@@ -24,10 +24,10 @@ void callBottomSheet({
   required BuildContext context,
   required String title,
   String? actionText,
-  bool isCompleted = false,
+  // bool isCompleted = false,
   required Widget content,
   bool full = true,
-  required ScrollController scrollController,
+  // required ScrollController scrollController,
 
   // string
 }) {
@@ -58,7 +58,7 @@ void callBottomSheet({
   );
 }
 
-void callDialog({
+Future<bool?> callDialog({
   required BuildContext context,
   required Widget content,
   required String title,
@@ -70,7 +70,7 @@ void callDialog({
   bool showConfirm = true,
   Duration? timeDialog, // Optional timer duration
 }) {
-  showDialog(
+return  showDialog<bool>(
     context: context,
     barrierDismissible: barrierDismissible,
     builder: (context) {
@@ -91,7 +91,7 @@ void callDialog({
           showCancel: showCancel,
           showConfirm: showConfirm,
           onCancel: () {
-            Navigator.pop(context);
+            Navigator.pop(context, false);
           });
     },
   );

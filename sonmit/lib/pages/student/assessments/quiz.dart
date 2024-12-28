@@ -100,55 +100,70 @@ class _QuizPageState extends State<QuizPage> {
     if (Platform.isAndroid) enableFlags();
     super.dispose();
   }
+
   // bool exitSession = false;
+  Future<bool?> _showBackDialog() {
+    return callDialog(
+        context: context,
+        content: Text(
+            "Your current progress will be saved and submitted. \nYou will not be able to edit your responses after this."),
+        title: "End quiz?",
+        onConfirm: () {
+          // Navigator.pop(context);
+          // debugPrint("isClosing: $isClosing");
+          // if (isClosing) {
+          //   Navigator.pop(context);
+          // }
+          Navigator.pop(context, true);
+          // setState(() {
+          //   isClosing = true;
+          // });
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
-    return
-        PopScope(
-      canPop: isClosing,
-      onPopInvokedWithResult: (didPop, result) async {
-        debugPrint("didPop: $didPop");
-        debugPrint("result: $result");
-
-        callDialog(
-            context: context,
-            content: Text(
-                "Your current progress will be saved and submitted. \nYou will not be able to edit your responses after this."),
-            title: "End quiz?",
-            onConfirm: () {
-              Navigator.pop(context);
-              debugPrint("isClosing: $isClosing");
-              if (isClosing) {
-                Navigator.pop(context);
-              }
-              Navigator.pop(context);
-              setState(() {
-                isClosing = true;
-              });
-            });
-      },
-        child:
-        Scaffold(
+    return Scaffold(
       body: Scaffold(
         appBar: AppBar(
           // pinned: true,
-          leading: CupertinoNavigationBarBackButton(
-            onPressed: () {
-              widget.isChecking
-                  ?
-              Navigator.pop(context)
-              : callDialog(
-                  context: context,
-                  content: Text(
-                      "Your current progress will be saved and submitted. \nYou will not be able to edit your responses after this."),
-                  title: "End quiz?",
-                  onConfirm: () {
-                    Navigator.pop(context);
-                    Navigator.pop(context);
-                  });
-              // Navigator.pop(context);
+          leading: PopScope(
+            canPop:widget.isChecking?true: false,
+            onPopInvokedWithResult: (didPop, result) async {
+              if (didPop) {
+                return;
+              }
+              final bool shouldPop = await _showBackDialog() ?? false;
+              if (context.mounted && shouldPop) {
+                Navigator.pop(context);
+              }
             },
+            child: CupertinoNavigationBarBackButton(
+              onPressed: () async {
+                if (!widget.isChecking) {
+                  final bool shouldPop = await _showBackDialog() ?? false;
+                  if (context.mounted && shouldPop) {
+                    Navigator.pop(context);
+                  }
+                }
+                else{
+                  Navigator.pop(context);
+                }
+                // widget.isChecking
+                //     ?
+                // Navigator.pop(context)
+                // : callDialog(
+                //     context: context,
+                //     content: Text(
+                //         "Your current progress will be saved and submitted. \nYou will not be able to edit your responses after this."),
+                //     title: "End quiz?",
+                //     onConfirm: () {
+                //       Navigator.pop(context);
+                //       // Navigator.pop(context);
+                //     });
+                // Navigator.pop(context);
+              },
+            ),
           ),
           actions: widget.isChecking ? null : null,
           // : [
@@ -297,7 +312,7 @@ class _QuizPageState extends State<QuizPage> {
             // ),
 
             Padding(
-                padding: const EdgeInsets.fromLTRB(0,0, 0, 0),
+                padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
                 child: widget.isChecking
                     ? SizedBox()
                     : SizedBox(
@@ -352,9 +367,7 @@ class _QuizPageState extends State<QuizPage> {
               label: Text("Score: 20"),
             )
           : null,
-      )
+      // )
     );
   }
-
-  
 }

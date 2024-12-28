@@ -8,12 +8,12 @@ import 'package:sonmit/components/card.dart';
 import 'package:sonmit/components/collapsible.dart';
 import 'package:sonmit/components/custom_scaffold.dart';
 import 'package:sonmit/components/pdf_viewer.dart';
+import 'package:sonmit/components/text_field.dart';
 import 'package:sonmit/services/callback.dart';
 import 'package:sonmit/services/flags.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class CreateMockPage extends StatefulWidget {
-  
   const CreateMockPage({super.key});
 
   @override
@@ -57,81 +57,82 @@ class _CreateMockPageState extends State<CreateMockPage> {
         centerTitle: true,
       ),
       body: CustomScaffold(
-        
         children: [
           Expanded(
             flex: 13,
             child: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Topics",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            SizedBox(
-              height: 30,
-            ),
-            ListView.separated(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  return ElevatedCollapsibleTile(
-                      header: Text("States of Matter"),
-                      content: [
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: DebossedCard(
-                              padding: EdgeInsets.all(0),
-                              borderRadius: BorderRadius.circular(10),
-                              // color: Theme.of(context)
-                              //     .colorScheme
-                              //     .surfaceContainer,
-                              child: ListView.separated(
-                                shrinkWrap: true,
-                                itemCount: 3,
-                                physics: NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index3) {
-                                  // final students = "quizzes[index2][]";
-                                  return CreateMockCard(
-                                    title: "Mock 23",
-                                    
-                                    questionPDF: "https://www.sldttc.org/allpdf/21583473018.pdf",
-                                    onTap: (value) {
-                                      // Navigator.push(context, slideLeftTransition(AdminMockDetailsPage(title: "Mock 23")));
-                                    },
-                                    // style: Theme.of(context)
-                                    //     .textTheme
-                                    //     .bodySmall,
-                                  );
-                                },
-                                separatorBuilder: (context, index) {
-                                  return Divider();
-                                },
-                              )),
-                        )
-                      ]);
-                },
-                separatorBuilder: (context, index) {
-                  return SizedBox(
+              physics: BouncingScrollPhysics(),
+              padding: EdgeInsets.fromLTRB(20, 30, 20, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    "Topics",
+                    style: Theme.of(context).textTheme.titleLarge,
+                  ),
+                  SizedBox(
                     height: 30,
-                  );
-                },
-                itemCount: 4),
-                SizedBox(
-                  height: 50,
-                )
-          ],
-        ),
-      ),
+                  ),
+                  ListView.separated(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        return ElevatedCollapsibleTile(
+                            header: Text("States of Matter"),
+                            content: [
+                              Padding(
+                                padding: const EdgeInsets.all(15),
+                                child: DebossedCard(
+                                    padding: EdgeInsets.all(0),
+                                    borderRadius: BorderRadius.circular(10),
+                                    // color: Theme.of(context)
+                                    //     .colorScheme
+                                    //     .surfaceContainer,
+                                    child: ListView.separated(
+                                      shrinkWrap: true,
+                                      itemCount: 3,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemBuilder: (context, index3) {
+                                        // final students = "quizzes[index2][]";
+                                        return CreateMockCard(
+                                          title: "Mock 23",
+
+                                          questionPDF:
+                                              "https://www.sldttc.org/allpdf/21583473018.pdf",
+                                          onTap: (value) {
+                                            // Navigator.push(context, slideLeftTransition(AdminMockDetailsPage(title: "Mock 23")));
+                                          },
+                                          // style: Theme.of(context)
+                                          //     .textTheme
+                                          //     .bodySmall,
+                                        );
+                                      },
+                                      separatorBuilder: (context, index) {
+                                        return Divider();
+                                      },
+                                    )),
+                              )
+                            ]);
+                      },
+                      separatorBuilder: (context, index) {
+                        return SizedBox(
+                          height: 30,
+                        );
+                      },
+                      itemCount: 4),
+                  SizedBox(
+                    height: 50,
+                  )
+                ],
+              ),
+            ),
           ),
           Expanded(
             flex: 5,
-            child: Container(width: double.maxFinite,decoration: BoxDecoration(
-              color: Theme.of(context).colorScheme.surfaceContainer
-            ),
+            child: Container(
+              width: double.maxFinite,
+              decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.surfaceContainer),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -161,12 +162,34 @@ class _CreateMockPageState extends State<CreateMockPage> {
                         child: FullOutlineButton(
                           // enabled: selectedPdf != null,
                           onPressed: () {
+                            TextEditingController topicController =
+                                TextEditingController();
+                            ScrollController scrollController =
+                                ScrollController();
+
+                            callBottomSheet(
+                                context: context,
+                                title: "Add custom question",
+                                content: Form(
+                                  child: Column(
+                                    children: [
+                                      FormTextField(
+                                        controller: topicController,
+                                        hintText: "Select topic",
+                                      )
+                                    ],
+                                  ),
+                                ),
+                                // scrollController: scrollController,
+                                );
                             // add the PDF or handle remove pdf logic
-                            selectedPdf == null
-                                ? _pickPdf()
-                                : _removePdf(context);
+                            // selectedPdf == null
+                            //     ? _pickPdf()
+                            //     : _removePdf(context);
                           },
-                          text: selectedPdf == null ? 'Add custom question' : "Remove",
+                          text: selectedPdf == null
+                              ? 'Add Custom Question'
+                              : "Remove",
                         ),
                       ),
                       SizedBox(
@@ -184,7 +207,8 @@ class _CreateMockPageState extends State<CreateMockPage> {
                                 title: "Complete Exam?",
                                 onConfirm: () {
                                   setState(() {
-                                    isSubmitted = true; // Mark Exam as submitted
+                                    isSubmitted =
+                                        true; // Mark Exam as submitted
                                   });
                                   Navigator.pop(context);
                                   Navigator.pop(context);

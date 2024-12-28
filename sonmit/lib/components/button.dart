@@ -238,15 +238,25 @@ class RaisedCustomButton extends StatelessWidget {
 class SmoothButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final Color? color;
+  final double? elevation;
 
-  const SmoothButton({super.key, required this.text, required this.onPressed});
+  const SmoothButton({
+    super.key,
+    required this.text,
+    required this.onPressed,
+    this.color, this.elevation,
+  });
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        
+        elevation: elevation,
+        backgroundColor:
+            color ?? Theme.of(context).colorScheme.primaryContainer,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
@@ -254,7 +264,8 @@ class SmoothButton extends StatelessWidget {
       ),
       child: Text(
         text,
-        style: TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
+        style:
+            TextStyle(color: Theme.of(context).colorScheme.onPrimaryContainer),
       ),
     );
   }

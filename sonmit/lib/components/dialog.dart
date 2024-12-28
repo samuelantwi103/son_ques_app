@@ -1,6 +1,7 @@
 // components/dialog.dart
 import 'package:flutter/material.dart';
 import 'package:sonmit/components/button.dart';
+import 'package:sonmit/components/card.dart';
 
 class PopupDialog extends StatelessWidget {
   final String title;
@@ -30,20 +31,39 @@ class PopupDialog extends StatelessWidget {
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
+      buttonPadding:  EdgeInsets.symmetric(horizontal: 20.0, vertical: 5),
       actions: !showCancel && !showConfirm
 
           ? null:<Widget>[
               showCancel
-                  ? TextButton(
-                      onPressed: onCancel,
-                      child: Text('Cancel'),
-                    )
+                  ? ElevatedCard(
+                    padding: EdgeInsets.all(0),
+                    child: TextButton(
+                        onPressed: onCancel,
+                        child: Text('Cancel'),
+                      ),
+                  )
                   : SizedBox(),
              showCancel
-                  ?  SmoothButton(
-                onPressed: onConfirm,
-                text: 'Confirm',
-              ):SizedBox(),
+                  ?  ElevatedCard(
+                    // clipper: OctagonClipper(),
+                              // padding: EdgeInsets.symmetric(horizontal: 16),
+                              // borderRadius: BorderRadius.circular(10),
+                              
+                              color: Theme.of(context).colorScheme.primaryContainer,
+                              // shadowColorLow: Color(0xFFF1A873),
+                              // shadowColorHigh: Color(0xFF984001),
+                    padding: EdgeInsets.all(0),
+                    child: TextButton(
+                      // elevation: 0,
+                      // color: Theme.of(context).colorScheme.primaryContainer,
+                      style: ButtonStyle(
+                        foregroundColor: WidgetStatePropertyAll(Theme.of(context).colorScheme.onPrimaryContainer)
+                      ),
+                                    onPressed: onConfirm,
+                                    child: Text('Confirm'),
+                                  ),
+                  ):SizedBox(),
             ]
           ,
     );
