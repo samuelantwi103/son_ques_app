@@ -184,7 +184,7 @@ class _ElevatedFormTextFieldState extends State<ElevatedFormTextField> {
 
             prefixIconColor: Color(0xFFFFF1E7),
             focusColor: Color(0xFFFFF1E7),
-            hoverColor: Color(0xFFFFF1E7),
+            hoverColor: Color.fromARGB(255, 223, 93, 1),
             suffixIconColor: Color(0xFFFFF1E7),
             labelText: widget.labelText,
             // hintText: "Enter your code",

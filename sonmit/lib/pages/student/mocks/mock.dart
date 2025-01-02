@@ -97,14 +97,16 @@ class _MockPageState extends State<MockPage> {
           //     ),
           //   ),
           // ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: 500,
-                ),
-                child: ListView.builder(
+          SliverFillRemaining(
+              // hasScrollBody: false,
+              fillOverscroll: true,
+              child:   Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: 
+                    Container(
+                      constraints: BoxConstraints(maxWidth: 600),
+                      child:ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
                   itemCount: mocks.length,
@@ -152,7 +154,7 @@ class _MockPageState extends State<MockPage> {
                 ),
               ),
             ),
-          ),
+          ),),
         ],
       ),
     );

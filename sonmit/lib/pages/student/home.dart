@@ -3,6 +3,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:sonmit/components/adaptive_layout.dart';
+import 'package:sonmit/pages/admin/settings.dart';
 import 'package:sonmit/pages/student/assessments/assesment.dart';
 import 'package:sonmit/pages/student/dashboard.dart';
 import 'package:sonmit/pages/student/mocks/mock.dart';

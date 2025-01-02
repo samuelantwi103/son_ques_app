@@ -5,7 +5,7 @@ import 'package:flutter_adaptive_scaffold/flutter_adaptive_scaffold.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:sonmit/components/button.dart';
-import 'package:sonmit/components/pdf_viewer.dart';
+import 'package:sonmit/components/pdf/pdf_viewer.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class DebossedCard extends StatelessWidget {
@@ -271,22 +271,31 @@ class AssessmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      // constraints: BoxConstraints(
-      //   minHeight: 200,
+      constraints: BoxConstraints(
+        // minHeight: 200,
       // height: 400,
-      height: Breakpoints.mediumAndUp.isActive(context) ? 330 : 400,
-      //   maxWidth: 500,
-      // ),
+        maxWidth: 100,
+      maxHeight: Breakpoints.mediumAndUp.isActive(context) ? 330 : 400,
+      ),
+      
       margin: EdgeInsets.only(bottom: 20),
       padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
       child: ElevatedCard(
-        child: Column(
-          // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          // mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
+        child: Container(
+          // constraints: BoxConstraints(
+          //   maxWidth: 100
+          // ),
+          width: 100,
+          clipBehavior: Clip.antiAlias,
+          decoration: BoxDecoration(
+            // color: Colors.amber
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
                 padding: const EdgeInsets.symmetric(vertical: 15.0),
                 child: Text(
                   title,
@@ -296,101 +305,115 @@ class AssessmentCard extends StatelessWidget {
                       ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        subject,
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              color: Theme.of(context).colorScheme.secondary,
-                            ),
-                      )),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
+              Expanded(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      subject,
+                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w600,
+                            color: Theme.of(context).colorScheme.secondary,
+                          ),
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text(
                       "Due: $dueDate",
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                             fontWeight: FontWeight.w600,
                             // color: Theme.of(context).colorScheme.tertiary,
                           ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-            ),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Text(
-                duration,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      // color: Theme.of(context).colorScheme.tertiary,
-                    ),
+              Container(
+              
+          constraints: BoxConstraints(maxWidth: 600),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  // mainAxisSize: MainAxisSize.min,
+                  // widthFactor: 1,
+                  // alignment: Alignment.centerRight,
+                  children: [Text(
+                    duration,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                          // color: Theme.of(context).colorScheme.tertiary,
+                        ),
+                  ),]
+                ),
               ),
-            ),
-            SizedBox(
-              height: 15,
-            ),
-            Breakpoints.mediumAndUp.isActive(context)
-                ? Row(children: [
-                    Expanded(
-                      child: FullOutlineButton(
-                          onPressed: onViewScore,
-                          text: "View Score",
-                          enabled: score == null ? true : false),
+              SizedBox(
+                height: 15,
+              ),
+              Breakpoints.mediumAndUp.isActive(context)
+                  ? ConstrainedBox(
+                    constraints: BoxConstraints(
+                      maxWidth: 600,
                     ),
-                    SizedBox(
-                      width: 10,
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                        Expanded(
+                          child: FullOutlineButton(
+                              onPressed: onViewScore,
+                              text: "View Score",
+                              enabled: score == null ? true : false),
+                        ),
+                        SizedBox(
+                          width: 10,
+                        ),
+                        Expanded(
+                          child: FullButton(
+                              onPressed: onStart,
+                              text: "Start Quiz",
+                              enabled: score == null ? false : true),
+                        ),
+                      ]),
+                  )
+          
+                  // ? Row(children: [
+                  //     Expanded(
+                  //       child: FullOutlineButton(
+                  //         onPressed: onViewScore,
+                  //         text: "View Score",
+                  //       ),
+                  //     ),
+                  //     SizedBox(
+                  //       width: 10,
+                  //     ),
+                  //     Expanded(
+                  //       child: FullButton(
+                  //         onPressed: onStart,
+                  //         text: "Start Quiz",
+                  //       ),
+                  //     ),
+                  //   ])
+                  : Container(
+                      constraints: BoxConstraints(
+                        maxWidth: 800,
+                      ),
+                      child: Column(mainAxisSize: MainAxisSize.min, children: [
+                        FullOutlineButton(
+                            onPressed: onViewScore,
+                            text: "View Score",
+                            enabled: score == null ? true : false),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        FullButton(
+                            onPressed: onStart,
+                            text: "Start Quiz",
+                            enabled: score == null ? false : true),
+                      ]),
                     ),
-                    Expanded(
-                      child: FullButton(
-                          onPressed: onStart,
-                          text: "Start Quiz",
-                          enabled: score == null ? false : true),
-                    ),
-                  ])
-                // ? Row(children: [
-                //     Expanded(
-                //       child: FullOutlineButton(
-                //         onPressed: onViewScore,
-                //         text: "View Score",
-                //       ),
-                //     ),
-                //     SizedBox(
-                //       width: 10,
-                //     ),
-                //     Expanded(
-                //       child: FullButton(
-                //         onPressed: onStart,
-                //         text: "Start Quiz",
-                //       ),
-                //     ),
-                //   ])
-                : Column(children: [
-                    FullOutlineButton(
-                        onPressed: onViewScore,
-                        text: "View Score",
-                        enabled: score == null ? true : false),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    FullButton(
-                        onPressed: onStart,
-                        text: "Start Quiz",
-                        enabled: score == null ? false : true),
-                  ]),
-            SizedBox(
-              height: 20,
-            ),
-          ],
+              SizedBox(
+                height: 20,
+              ),
+            ],
+          ),
         ),
       ),
     );

@@ -37,9 +37,9 @@ class _AdminHomePageState extends State<AdminHomePage> {
           'secondaryPage': null,
         },
         {
-          'icon': Icon(Icons.assessment_outlined),
-          'selectedIcon': Icon(Icons.assessment),
-          'label': 'Performance',
+          'icon': Icon(Icons.people_outlined),
+          'selectedIcon': Icon(Icons.people),
+          'label': 'Students',
           'page': AdminPerformancePage(),
           'secondaryPage': null,
         },

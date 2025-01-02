@@ -71,6 +71,29 @@ class _AdminSettingsPageState extends State<AdminSettingsPage> {
                   SizedBox(
                     height: 30,
                   ),
+                  
+                Row(
+                    children: [
+                      Text(
+                        "ID: ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "SONT101 ",
+                        style: Theme.of(context)
+                            .textTheme
+                            .bodyLarge
+                            ?.copyWith(fontWeight: FontWeight.normal),
+                      )
+                    ],
+                  ),
+                
+                  SizedBox(
+                    height: 10,
+                  ),
                   Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -91,29 +114,8 @@ class _AdminSettingsPageState extends State<AdminSettingsPage> {
                       ),
                     )
                   ],
-                ),
-                  SizedBox(
-                    height: 10,
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        "Name: ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(fontWeight: FontWeight.bold),
-                      ),
-                      Text(
-                        "Tutor One Name ",
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodyLarge
-                            ?.copyWith(fontWeight: FontWeight.normal),
-                      )
-                    ],
-                  )
-                ],
+                )
+                  ],
               ),
             ),
             SizedBox(

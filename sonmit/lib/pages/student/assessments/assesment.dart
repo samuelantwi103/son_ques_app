@@ -97,62 +97,73 @@ class _AssesmentPageState extends State<AssesmentPage> {
           //     ),
           //   ),
           // ),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(
-                  maxWidth: 500,
-                ),
-                child: ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: assessments.length,
-                  itemBuilder: (context, index) {
-                    Map<String, dynamic> assessment = assessments[index];
-                    // Please let the code end here
-                    // Everything needed has been provided here already
-                    return AssessmentCard(
-                      title: assessment["title"],
-                      subject: assessment["subject"],
-                      duration: assessment["duration"],
-                      score: assessment["score"]?.toDouble(),
-                      dueDate: assessment["dueDate"],
-                      onViewScore: () {
-                        Navigator.push(
-                          context,
-                          slideRightTransition(
-                           QuizPage(
+          // SliverConstrainedCrossAxis(
+          //   maxExtent: 600,
+          //   sliver: 
+            SliverFillRemaining(
+              // hasScrollBody: false,
+              fillOverscroll: true,
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(
+                  child: 
+                    Container(
+                      constraints: BoxConstraints(maxWidth: 600),
+                      child: ListView.builder(
+                        physics: NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: assessments.length,
+                        itemBuilder: (context, index) {
+                          Map<String, dynamic> assessment = assessments[index];
+                          // Please let the code end here
+                          // Everything needed has been provided here already
+                          return ConstrainedBox(
+                            constraints: BoxConstraints(maxWidth: 100),
+                            child: AssessmentCard(
                               title: assessment["title"],
-                              isChecking: true,
-                            ),
-                          ),
-                        );
-                      },
-                      onStart: () {
-                        callDialog(
-                            context: context,
-                            content: Text(
-                                "The session cannot be paused or restarted"),
-                            title: "Start quiz?",
-                            onConfirm: () {
-                              Navigator.pop(context);
-                              Navigator.push(
-                                context,
-                                slideLeftTransition(
-                                  QuizPage(
-                                    title: assessment["title"],
+                              subject: assessment["subject"],
+                              duration: assessment["duration"],
+                              score: assessment["score"]?.toDouble(),
+                              dueDate: assessment["dueDate"],
+                              onViewScore: () {
+                                Navigator.push(
+                                  context,
+                                  slideRightTransition(
+                                   QuizPage(
+                                      title: assessment["title"],
+                                      isChecking: true,
+                                    ),
                                   ),
-                                ),
-                              );
-                            });
-                      },
-                    );
-                  },
+                                );
+                              },
+                              onStart: () {
+                                callDialog(
+                                    context: context,
+                                    content: Text(
+                                        "The session cannot be paused or restarted"),
+                                    title: "Start quiz?",
+                                    onConfirm: () {
+                                      Navigator.pop(context);
+                                      Navigator.push(
+                                        context,
+                                        slideLeftTransition(
+                                          QuizPage(
+                                            title: assessment["title"],
+                                          ),
+                                        ),
+                                      );
+                                    });
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
                 ),
               ),
-            ),
-          ),
+            // ),
+          
         ],
       ),
     );

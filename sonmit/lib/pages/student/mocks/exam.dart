@@ -6,13 +6,14 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:sonmit/components/button.dart';
 import 'package:sonmit/components/custom_scaffold.dart';
-import 'package:sonmit/components/pdf_viewer.dart';
+import 'package:sonmit/components/pdf/pdf_viewer.dart';
 import 'package:sonmit/components/progress_indicator.dart';
 import 'package:sonmit/components/timer.dart';
 import 'package:sonmit/services/callback.dart';
@@ -47,7 +48,9 @@ class _ExamPageState extends State<ExamPage> {
   @override
   void initState() {
     if (widget.isChecking) isSubmitted = true;
-    if (Platform.isAndroid) disableFlags();
+    if (!kIsWeb) {
+      if (Platform.isAndroid) disableFlags();
+    }
     if (widget.isChecking) isClosing = true;
 
     super.initState();
@@ -55,7 +58,9 @@ class _ExamPageState extends State<ExamPage> {
 
   @override
   void dispose() {
-    if (Platform.isAndroid) enableFlags();
+    if (!kIsWeb) {
+      if (Platform.isAndroid) enableFlags();
+    }
     super.dispose();
   }
 
@@ -116,7 +121,7 @@ class _ExamPageState extends State<ExamPage> {
                   child: isReady
                       ? CountdownTimer(
                           hours: 0,
-                          minutes: 1,
+                          minutes: 5,
                           onProgress: (timerProgress) {
                             setState(() {
                               progress = timerProgress;
@@ -199,7 +204,7 @@ class _ExamPageState extends State<ExamPage> {
                 Expanded(
                   flex: 7,
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Padding(
                         padding: const EdgeInsets.symmetric(
@@ -207,7 +212,7 @@ class _ExamPageState extends State<ExamPage> {
                         child: !widget.isChecking
                             ? selectedPdf != null
                                 ? Text(
-                                    "Added work: ${selectedPdf?.path.split('/').last}",
+                                    "Added work: ${kIsWeb? "":selectedPdf?.path.split('/').last}",
                                     style: GoogleFonts.dmSans(
                                       fontWeight: FontWeight.w600,
                                       fontSize: 13,
@@ -299,11 +304,20 @@ class _ExamPageState extends State<ExamPage> {
       );
 
       if (result != null) {
-        String? path = result.files.single.path;
-        if (path != null) {
-          setState(() {
-            selectedPdf = File(path);
-          });
+        if (kIsWeb) {
+          Uint8List? fileBytes = result.files.single.bytes;
+          if (fileBytes != null) {
+            setState(() {
+              selectedPdf = File.fromRawPath(fileBytes);
+            });
+          }
+        } else {
+          String? path = result.files.single.path;
+          if (path != null) {
+            setState(() {
+              selectedPdf = File(path);
+            });
+          }
         }
       } else {
         debugPrint("User canceled the picker");

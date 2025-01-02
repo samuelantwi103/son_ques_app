@@ -2,11 +2,12 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sonmit/components/button.dart';
 import 'package:sonmit/components/card.dart';
 import 'package:sonmit/components/custom_scaffold.dart';
-import 'package:sonmit/components/pdf_viewer.dart';
+import 'package:sonmit/components/pdf/pdf_viewer.dart';
 import 'package:sonmit/services/callback.dart';
 import 'package:sonmit/services/flags.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
@@ -32,7 +33,7 @@ class _AdminMockDetailsPageState extends State<AdminMockDetailsPage> {
   @override
   void initState() {
     // if (widget.isChecking) isSubmitted = true;
-    if (Platform.isAndroid) disableFlags();
+    // if (Platform.isAndroid) disableFlags();
     // if (widget.isChecking) isClosing = true;
 
     super.initState();
@@ -40,7 +41,7 @@ class _AdminMockDetailsPageState extends State<AdminMockDetailsPage> {
 
   @override
   void dispose() {
-    if (Platform.isAndroid) enableFlags();
+    // if (Platform.isAndroid) enableFlags();
     super.dispose();
   }
 
@@ -84,7 +85,7 @@ class _AdminMockDetailsPageState extends State<AdminMockDetailsPage> {
                             //     isReadyQues = ready;
                             //   // });
                             // },
-                            height: 385,
+                            height: 0.7*MediaQuery.sizeOf(context).height,
                             selectedPdf: questionPDF,
                             scrollDirection: PdfScrollDirection.horizontal,
                             // totalPages: _totalPages, currentPage: _currentPage, isPdfReady: _isPdfReady
@@ -113,7 +114,7 @@ class _AdminMockDetailsPageState extends State<AdminMockDetailsPage> {
                             //     isReadyAns = ready;
                             //   // });
                             // },
-                            height: 385,
+                            height: 0.7*MediaQuery.sizeOf(context).height,
                             selectedPdf: questionPDF,
                             scrollDirection: PdfScrollDirection.horizontal,
                             // totalPages: _totalPages, currentPage: _currentPage, isPdfReady: _isPdfReady
@@ -128,7 +129,7 @@ class _AdminMockDetailsPageState extends State<AdminMockDetailsPage> {
             ),
           ),
           Expanded(
-            flex: 5,
+            flex: 4,
             child: Container(width: double.maxFinite,decoration: BoxDecoration(
               color: Theme.of(context).colorScheme.surfaceContainer
             ),
@@ -218,11 +219,20 @@ class _AdminMockDetailsPageState extends State<AdminMockDetailsPage> {
       );
 
       if (result != null) {
-        String? path = result.files.single.path;
-        if (path != null) {
-          setState(() {
-            selectedPdf = File(path);
-          });
+        if (kIsWeb) {
+          Uint8List? fileBytes = result.files.single.bytes;
+          if (fileBytes != null) {
+            setState(() {
+              selectedPdf = File.fromRawPath(fileBytes);
+            });
+          }
+        } else {
+          String? path = result.files.single.path;
+          if (path != null) {
+            setState(() {
+              selectedPdf = File(path);
+            });
+          }
         }
       } else {
         debugPrint("User canceled the picker");
@@ -232,6 +242,7 @@ class _AdminMockDetailsPageState extends State<AdminMockDetailsPage> {
     }
   }
 
+  
   Future<void> _removePdf(BuildContext context) async {
     setState(() {
       selectedPdf = null;

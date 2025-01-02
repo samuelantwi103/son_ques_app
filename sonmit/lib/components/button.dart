@@ -66,7 +66,7 @@ class FullButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: 300,
+        // maxWidth: 300,
       ),
       child: MaterialButton(
         onPressed: enabled ? onPressed : null,
@@ -121,7 +121,7 @@ class FullOutlineButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        maxWidth: 300,
+        // maxWidth: 300,
       ),
       child: MaterialButton(
         onPressed: enabled ? onPressed : null,

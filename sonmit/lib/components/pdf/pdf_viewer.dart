@@ -61,6 +61,7 @@ class _PdfViewerState extends State<PdfViewer> {
           children: [
             Container(
               constraints: BoxConstraints(
+                maxWidth: 400,
                   maxHeight: widget.height ??
                       MediaQuery.of(context).size.height * 0.8),
               child: SfTheme(
@@ -72,6 +73,7 @@ class _PdfViewerState extends State<PdfViewer> {
                 child: SfPdfViewer.network(
                   widget.selectedPdf,
                   canShowTextSelectionMenu: false,
+                  
                   scrollDirection: widget.scrollDirection,
                   enableTextSelection: false,
                   enableDocumentLinkAnnotation: false,

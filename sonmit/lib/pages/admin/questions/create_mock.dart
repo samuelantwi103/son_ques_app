@@ -2,12 +2,15 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sonmit/components/button.dart';
+import 'package:sonmit/components/camera/camera.dart';
 import 'package:sonmit/components/card.dart';
 import 'package:sonmit/components/collapsible.dart';
 import 'package:sonmit/components/custom_scaffold.dart';
-import 'package:sonmit/components/pdf_viewer.dart';
+import 'package:sonmit/components/pdf/pdf_creator.dart';
+import 'package:sonmit/components/pdf/pdf_viewer.dart';
 import 'package:sonmit/components/text_field.dart';
 import 'package:sonmit/services/callback.dart';
 import 'package:sonmit/services/flags.dart';
@@ -33,7 +36,7 @@ class _CreateMockPageState extends State<CreateMockPage> {
   @override
   void initState() {
     // if (widget.isChecking) isSubmitted = true;
-    if (Platform.isAndroid) disableFlags();
+    // if (Platform.isAndroid) disableFlags();
     // if (widget.isChecking) isClosing = true;
 
     super.initState();
@@ -41,9 +44,11 @@ class _CreateMockPageState extends State<CreateMockPage> {
 
   @override
   void dispose() {
-    if (Platform.isAndroid) enableFlags();
+    // if (Platform.isAndroid) enableFlags();
     super.dispose();
   }
+
+  List<File> _selectedImages = [];
 
   @override
   Widget build(BuildContext context) {
@@ -166,22 +171,42 @@ class _CreateMockPageState extends State<CreateMockPage> {
                                 TextEditingController();
                             ScrollController scrollController =
                                 ScrollController();
+                            callDialog(
+                              context: context,
+                              onConfirm: () {},
+                              showConfirm: false,
+                              title: "Add custom question",
+                              content: Form(
+                                child: Column(
+                                  children: [
+                                    FormTextField(
+                                      controller: topicController,
+                                      hintText: "Select topic",
+                                    ),
+                                    // Image picker component
+                                    ImagePickerComponent(
+                                      onImagesPicked: (images) {
+                                        // When images are picked, update the state
+                                        setState(() {
+                                          _selectedImages = images;
+                                        });
+                                        debugPrint(
+                                            "Selected images: ${_selectedImages.length}");
+                                      },
+                                    ),
 
-                            callBottomSheet(
-                                context: context,
-                                title: "Add custom question",
-                                content: Form(
-                                  child: Column(
-                                    children: [
-                                      FormTextField(
-                                        controller: topicController,
-                                        hintText: "Select topic",
-                                      )
-                                    ],
-                                  ),
+                                    // Pass the selected images to PdfCreator component
+                                    const SizedBox(height: 20),
+                                    PdfCreator(imageFiles: _selectedImages),
+
+                                    // Display selected images as a debug output
+                                    Text(
+                                        "Selected images: ${_selectedImages.length}"),
+                                  ],
                                 ),
-                                // scrollController: scrollController,
-                                );
+                              ),
+                              // scrollController: scrollController,
+                            );
                             // add the PDF or handle remove pdf logic
                             // selectedPdf == null
                             //     ? _pickPdf()
@@ -242,11 +267,20 @@ class _CreateMockPageState extends State<CreateMockPage> {
       );
 
       if (result != null) {
-        String? path = result.files.single.path;
-        if (path != null) {
-          setState(() {
-            selectedPdf = File(path);
-          });
+        if (kIsWeb) {
+          Uint8List? fileBytes = result.files.single.bytes;
+          if (fileBytes != null) {
+            setState(() {
+              selectedPdf = File.fromRawPath(fileBytes);
+            });
+          }
+        } else {
+          String? path = result.files.single.path;
+          if (path != null) {
+            setState(() {
+              selectedPdf = File(path);
+            });
+          }
         }
       } else {
         debugPrint("User canceled the picker");

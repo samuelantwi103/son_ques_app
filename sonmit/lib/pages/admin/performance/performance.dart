@@ -16,7 +16,7 @@ class _AdminPerformancePageState extends State<AdminPerformancePage> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.surfaceContainer,
         leading: SizedBox(),
-        title: Text("P E R F O R M A N C E"),
+        title: Text("S T U D E N T S"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(
@@ -25,13 +25,13 @@ class _AdminPerformancePageState extends State<AdminPerformancePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              "Students",
-              style: Theme.of(context).textTheme.titleLarge,
-            ),
-            SizedBox(
-              height: 30,
-            ),
+            // Text(
+            //   "Students",
+            //   style: Theme.of(context).textTheme.titleLarge,
+            // ),
+            // SizedBox(
+            //   height: 30,
+            // ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: ListView.separated(
