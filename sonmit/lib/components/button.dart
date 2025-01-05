@@ -66,8 +66,8 @@ class FullButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        // maxWidth: 300,
-      ),
+          // maxWidth: 300,
+          ),
       child: MaterialButton(
         onPressed: enabled ? onPressed : null,
         enableFeedback: enabled,
@@ -92,6 +92,7 @@ class FullButton extends StatelessWidget {
         //     ))),
         child: Text(
           text,
+          softWrap: false,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context).colorScheme.onPrimary,
@@ -121,8 +122,8 @@ class FullOutlineButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return ConstrainedBox(
       constraints: BoxConstraints(
-        // maxWidth: 300,
-      ),
+          // maxWidth: 300,
+          ),
       child: MaterialButton(
         onPressed: enabled ? onPressed : null,
         // disabledColor:
@@ -149,6 +150,7 @@ class FullOutlineButton extends StatelessWidget {
         //     ))),
         child: Text(
           text,
+          softWrap: false,
           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                 fontWeight: FontWeight.bold,
                 color: Theme.of(context)
@@ -245,7 +247,8 @@ class SmoothButton extends StatelessWidget {
     super.key,
     required this.text,
     required this.onPressed,
-    this.color, this.elevation,
+    this.color,
+    this.elevation,
   });
 
   @override
@@ -253,7 +256,6 @@ class SmoothButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed,
       style: ElevatedButton.styleFrom(
-        
         elevation: elevation,
         backgroundColor:
             color ?? Theme.of(context).colorScheme.primaryContainer,

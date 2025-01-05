@@ -20,7 +20,7 @@ Color getProgressColor({
   }
 }
 
-void callBottomSheet({
+Future<dynamic> callBottomSheet({
   required BuildContext context,
   required String title,
   String? actionText,
@@ -31,7 +31,7 @@ void callBottomSheet({
 
   // string
 }) {
-  showModalBottomSheet(
+  return showModalBottomSheet(
     showDragHandle: true,
     enableDrag: true,
     isScrollControlled: true,
@@ -39,9 +39,9 @@ void callBottomSheet({
     context: context,
     builder: (context) {
       return DraggableScrollableSheet(
-        initialChildSize: full ? 0.9 : 0.5,
-        minChildSize: full ? 0.9 : 0.3,
-        maxChildSize: 0.9,
+        // initialChildSize: full ? 0.9 : 0.5,
+        // minChildSize: full ? 0.9 : 0.3,
+        // maxChildSize: 0.9,
         expand: false,
         builder: (context, scrollController) {
           return CustomBottomSheet(
@@ -70,7 +70,7 @@ Future<bool?> callDialog({
   bool showConfirm = true,
   Duration? timeDialog, // Optional timer duration
 }) {
-return  showDialog<bool>(
+  return showDialog<bool>(
     context: context,
     barrierDismissible: barrierDismissible,
     builder: (context) {

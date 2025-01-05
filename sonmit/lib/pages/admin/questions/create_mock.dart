@@ -4,11 +4,13 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:sonmit/components/button.dart';
 import 'package:sonmit/components/camera/camera.dart';
 import 'package:sonmit/components/card.dart';
 import 'package:sonmit/components/collapsible.dart';
 import 'package:sonmit/components/custom_scaffold.dart';
+import 'package:sonmit/components/date_time.dart';
 import 'package:sonmit/components/pdf/pdf_creator.dart';
 import 'package:sonmit/components/pdf/pdf_viewer.dart';
 import 'package:sonmit/components/text_field.dart';
@@ -48,7 +50,13 @@ class _CreateMockPageState extends State<CreateMockPage> {
     super.dispose();
   }
 
-  List<File> _selectedImages = [];
+  // List<File> _selectedImages = [];
+  String? selectedTopic;
+  List topics = [
+    "States of Matter",
+    "Organic Chemistry",
+    "Rate of Reactions",
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +91,7 @@ class _CreateMockPageState extends State<CreateMockPage> {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         return ElevatedCollapsibleTile(
-                            header: Text("States of Matter"),
+                            header: Text(topics[index]),
                             content: [
                               Padding(
                                 padding: const EdgeInsets.all(15),
@@ -124,7 +132,7 @@ class _CreateMockPageState extends State<CreateMockPage> {
                           height: 30,
                         );
                       },
-                      itemCount: 4),
+                      itemCount: topics.length),
                   SizedBox(
                     height: 50,
                   )
@@ -169,52 +177,102 @@ class _CreateMockPageState extends State<CreateMockPage> {
                           onPressed: () {
                             TextEditingController topicController =
                                 TextEditingController();
-                            ScrollController scrollController =
-                                ScrollController();
-                            callDialog(
+                            // ScrollController scrollController =
+                            // ScrollController();
+
+                            callBottomSheet(
                               context: context,
-                              onConfirm: () {},
-                              showConfirm: false,
                               title: "Add custom question",
-                              content: Form(
-                                child: Column(
-                                  children: [
-                                    FormTextField(
-                                      controller: topicController,
-                                      hintText: "Select topic",
+                              content: StatefulBuilder(
+                                builder: (context, setDialogState) {
+                                  return Form(
+                                    child: Column(
+                                      children: [
+                                        DropdownButtonFormField<String>(
+                                          value: selectedTopic,
+                                          items: topics.map((country) {
+                                            return DropdownMenuItem<String>(
+                                                value: country,
+                                                child: Text(country));
+                                          }).toList(),
+                                          validator: (value) {
+                                            // debugPrint(value.toString());
+                                            if (value == null) {
+                                              return "Select a city";
+                                            }
+                                            return null;
+                                          },
+                                          onChanged: (value) {
+                                            setState(() {
+                                              selectedTopic = value;
+                                            });
+                                          },
+                                          // decoration: const InputDecoration(),
+                                          autovalidateMode: AutovalidateMode
+                                              .onUserInteraction,
+                                          decoration: InputDecoration(
+                                            labelText: 'Topic',
+                                            filled: true,
+                                            counter: const SizedBox(
+                                              height: 0,
+                                            ),
+                                            border: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5.0),
+                                            ),
+                                          ),
+                                          // style: TextStyle(
+                                          //   color: Theme.of(context).colorScheme.primary,
+                                          // ),
+                                        ),
+                                        SizedBox(height: 20),
+                                        selectedPdf != null
+                                            ? Text(
+                                                "Added PDF: ${selectedPdf?.path.split('/').last}",
+                                                style: GoogleFonts.dmSans(
+                                                  fontWeight: FontWeight.w600,
+                                                  fontSize: 13,
+                                                ),
+                                              )
+                                            : SizedBox(),
+                                        if (selectedPdf != null)
+                                          SizedBox(height: 20),
+                                        FullButton(
+                                          text: selectedPdf == null
+                                              ? "Select PDF"
+                                              : "Remove",
+                                          onPressed: () {
+                                            if (selectedPdf == null) {
+                                              _pickPdf().then((_) {
+                                                setDialogState(
+                                                    () {}); // Update dialog state
+                                              });
+                                            } else {
+                                              _removePdf(context);
+                                              setDialogState(
+                                                  () {}); // Update dialog state
+                                            }
+                                          },
+                                        ),
+                                      ],
                                     ),
-                                    // Image picker component
-                                    ImagePickerComponent(
-                                      onImagesPicked: (images) {
-                                        // When images are picked, update the state
-                                        setState(() {
-                                          _selectedImages = images;
-                                        });
-                                        debugPrint(
-                                            "Selected images: ${_selectedImages.length}");
-                                      },
-                                    ),
-
-                                    // Pass the selected images to PdfCreator component
-                                    const SizedBox(height: 20),
-                                    PdfCreator(imageFiles: _selectedImages),
-
-                                    // Display selected images as a debug output
-                                    Text(
-                                        "Selected images: ${_selectedImages.length}"),
-                                  ],
-                                ),
+                                  );
+                                },
                               ),
-                              // scrollController: scrollController,
                             );
+
+                            // add the PDF or handle remove pdf logic
+
+                            // selectedPdf == null
+                            //     ? _pickPdf()
+                            //     : _removePdf(context);
+
                             // add the PDF or handle remove pdf logic
                             // selectedPdf == null
                             //     ? _pickPdf()
                             //     : _removePdf(context);
                           },
-                          text: selectedPdf == null
-                              ? 'Add Custom Question'
-                              : "Remove",
+                          text: 'Add Custom Question',
                         ),
                       ),
                       SizedBox(
@@ -227,9 +285,38 @@ class _CreateMockPageState extends State<CreateMockPage> {
                           onPressed: () {
                             callDialog(
                                 context: context,
-                                content: Text(
-                                    "You cannot edit your responses after this is done"),
-                                title: "Complete Exam?",
+                                content: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    // Row(
+                                    //   children: [
+                                    //     Text(
+                                    //       "Set due date",
+                                    //       style: Theme.of(context).textTheme.titleMedium,
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    DateTimePicker(
+                                      onDateTimeSelected: (selectedDateTime) {
+                                        // Do something with the selected date and time
+                                        debugPrint(
+                                          "Selected DateTime: $selectedDateTime",
+                                        );
+                                      },
+                                    ),
+                                    SizedBox(
+                                      height: 10,
+                                    ),
+                                    DurationPicker(
+                                      onDurationSelected: (duration) {
+                                        // Do something with the selected duration
+                                        debugPrint(
+                                            "Selected Duration: ${duration.inHours}h ${duration.inMinutes % 60}m ${duration.inSeconds % 60}s");
+                                      },
+                                    ),
+                                  ],
+                                ),
+                                title: "Create Mock Exam?",
                                 onConfirm: () {
                                   setState(() {
                                     isSubmitted =

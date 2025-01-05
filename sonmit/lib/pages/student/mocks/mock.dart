@@ -1,9 +1,12 @@
 // pages/student/mocks/mock.dart
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:sonmit/components/card.dart';
+import 'package:sonmit/components/empty_screen.dart';
 import 'package:sonmit/pages/student/mocks/exam.dart';
 import 'package:sonmit/services/callback.dart';
 import 'package:sonmit/services/transitions.dart';
+import 'package:sonmit/themes/theme_provider.dart';
 
 class MockPage extends StatefulWidget {
   const MockPage({super.key});
@@ -56,107 +59,65 @@ class _MockPageState extends State<MockPage> {
       },
     ];
 
+    final isDark = Provider.of<ThemeNotifier>(context, listen: true).isDarkMode;
+
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            expandedHeight: 150.0,
-            pinned: true,
-            leading: SizedBox(),
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              title: Text(
-                "Mock Exams",
-                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-              ),
-              // background: Image.asset(
-              //   'assets/books_1.jpeg',
-              //   fit: BoxFit.cover,
-              // ),
-            ),
-          ),
-          // SliverPadding(
-          //   padding: const EdgeInsets.fromLTRB(15.0, 15, 15, 0),
-          //   sliver: SliverToBoxAdapter(
-          //     child: Column(
-          //       crossAxisAlignment: CrossAxisAlignment.start,
-          //       children: [
-          //         SizedBox(height: 20),
-          //         Text(
-          //           "Mocks",
-          //           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-          //                 fontWeight: FontWeight.bold,
-          //                 color: Theme.of(context).colorScheme.secondary,
-          //               ),
-          //         ),
-          //         SizedBox(height: 20),
-          //       ],
-          //     ),
-          //   ),
-          // ),
-          SliverFillRemaining(
-              // hasScrollBody: false,
-              fillOverscroll: true,
-              child:   Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: 
-                    Container(
-                      constraints: BoxConstraints(maxWidth: 600),
-                      child:ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: mocks.length,
-                  itemBuilder: (context, index) {
-                    Map<String, dynamic> mock = mocks[index];
-                    // Please let the code end here
-                    // Everything needed has been provided here already
-                    return MockCard(
-                      title: mock["title"],
-                      subject: mock["subject"],
-                      duration: mock["duration"],
-                      score: mock["score"]?.toDouble(),
-                      dueDate: mock["dueDate"],
-                      onViewScore: () {
-                        Navigator.push(
-                          context,
-                          slideRightTransition(
-                            ExamPage(
-                              title: mock["title"],
-                              isChecking: true,
-                            ),
-                          ),
-                        );
-                      },
-                      onStart: () {
-                        callDialog(
-                            context: context,
-                            content: Text(
-                                "The session cannot be paused or restarted"),
-                            title: "Start exam?",
-                            onConfirm: () {
-                              Navigator.pop(context);
-                              Navigator.push(
-                                context,
-                                slideLeftTransition(
-                                  ExamPage(
-                                    title: mock["title"],
-                                  ),
-                                ),
-                              );
-                            });
-                      },
-                    );
-                  },
-                ),
-              ),
-            ),
-          ),),
-        ],
+      // body: CustomScrollView(
+      //   slivers: [
+      // SliverAppBar(
+      //   expandedHeight: 150.0,
+      //   pinned: true,
+      //   leading: SizedBox(),
+      //   flexibleSpace: FlexibleSpaceBar(
+      //     centerTitle: true,
+      //     title: Text(
+      //       "Mock Exams",
+      //       style: Theme.of(context).textTheme.headlineSmall?.copyWith(
+      //             fontWeight: FontWeight.bold,
+      //             color: Theme.of(context).colorScheme.secondary,
+      //           ),
+      //     ),
+      //     // background: Image.asset(
+      //     //   'assets/books_1.jpeg',
+      //     //   fit: BoxFit.cover,
+      //     // ),
+      //   ),
+      // ),
+      // SliverPadding(
+      //   padding: const EdgeInsets.fromLTRB(15.0, 15, 15, 0),
+      //   sliver: SliverToBoxAdapter(
+      //     child: Column(
+      //       crossAxisAlignment: CrossAxisAlignment.start,
+      //       children: [
+      //         SizedBox(height: 20),
+      //         Text(
+      //           "Mocks",
+      //           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+      //                 fontWeight: FontWeight.bold,
+      //                 color: Theme.of(context).colorScheme.secondary,
+      //               ),
+      //         ),
+      //         SizedBox(height: 20),
+      //       ],
+      //     ),
+      //   ),
+      // ),
+      // SliverToBoxAdapter(
+      //   child:
+      body: Center(
+        child: EmptyScreen(
+          subtitle: "😎",
+          title: "Coming Soon",
+          description: "The mock feature will be available soon",
+          animation:
+              isDark ? "assets/upcoming_dark.json" : "assets/upcoming.json",
+          repeat: true,
+          width: 300,
+        ),
       ),
+      //   ),
+      // ],
+      // ),
     );
   }
 }

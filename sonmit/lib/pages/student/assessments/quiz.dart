@@ -331,25 +331,29 @@ class _QuizPageState extends State<QuizPage> {
                 //     height: MediaQuery.sizeOf(context).height,
                 //     child: CustomWebView(url: url),
                 //   )
-                : FullButton(
-                    onPressed: () {
-                      callDialog(
-                          context: context,
-                          content: Text(
-                              "You cannot edit your responses after this is done"),
-                          title: "Complete quiz",
-                          onConfirm: () {
-                            setState(() {
-                              isSubmitted = true; // Mark quiz as submitted
+                : Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: FullButton(
+                      onPressed: () {
+                        callDialog(
+                            context: context,
+                            content: Text(
+                                "You cannot edit your responses after this is done"),
+                            title: "Complete quiz",
+                            onConfirm: () {
+                              
+                              setState(() {
+                                isSubmitted = true; // Mark quiz as submitted
+                              });
+                              Navigator.pop(context);
+                              Navigator.pop(context);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(content: Text("Submitted")));
                             });
-                            Navigator.pop(context);
-                            Navigator.pop(context);
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text("Submitted")));
-                          });
-                    },
-                    text: 'Submit',
-                  ),
+                      },
+                      text: 'Submit',
+                    ),
+                ),
           ),
           const SizedBox(height: 20),
         ]),

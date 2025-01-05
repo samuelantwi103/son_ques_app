@@ -15,6 +15,20 @@ class DebossedCard extends StatelessWidget {
   final Color? shadowColorLow;
   final BorderRadiusGeometry? borderRadius;
   final EdgeInsetsGeometry? padding;
+  final BoxConstraints? constraints;
+  final AlignmentGeometry? alignment;
+  // final EdgeInsetsGeometry? padding;
+  // final Color? color;
+  final Decoration? decoration;
+  final Decoration? foregroundDecoration;
+  final double? width;
+  final double? height;
+  // final BoxConstraints? constraints;
+  final EdgeInsetsGeometry? margin;
+  final Matrix4? transform;
+  final AlignmentGeometry? transformAlignment;
+  // final Widget? child;
+  final Clip? clipBehavior;
 
   const DebossedCard({
     super.key,
@@ -24,12 +38,36 @@ class DebossedCard extends StatelessWidget {
     this.borderRadius,
     this.shadowColorHigh,
     this.shadowColorLow,
+    this.constraints,
+    this.alignment,
+    this.decoration,
+    this.foregroundDecoration,
+    this.width,
+    this.height,
+    this.margin,
+    this.transform,
+    this.transformAlignment,
+    this.clipBehavior,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: EdgeInsets.all(6),
+      constraints: constraints,
+      alignment: alignment,
+      // padding:,
+      // color: color,
+//  decoration:,
+      foregroundDecoration: foregroundDecoration,
+      width: width,
+      height: height,
+      // BoxConstraints? constraints:,
+      margin: margin,
+      transform: transform,
+      transformAlignment: transformAlignment,
+      // Widget? child,
+      clipBehavior: clipBehavior ?? Clip.none,
       decoration: BoxDecoration(
         border: Border(
           bottom: BorderSide(
@@ -93,6 +131,20 @@ class ElevatedCard extends StatelessWidget {
   final Color? shadowColorLow;
   final BorderRadiusGeometry? borderRadius;
   final EdgeInsetsGeometry? padding;
+  final BoxConstraints? constraints;
+  final AlignmentGeometry? alignment;
+  // final EdgeInsetsGeometry? padding;
+  // final Color? color;
+  final Decoration? decoration;
+  final Decoration? foregroundDecoration;
+  final double? width;
+  final double? height;
+  // final BoxConstraints? constraints;
+  final EdgeInsetsGeometry? margin;
+  final Matrix4? transform;
+  final AlignmentGeometry? transformAlignment;
+  // final Widget? child;
+  final Clip? clipBehavior;
 
   const ElevatedCard({
     super.key,
@@ -102,13 +154,36 @@ class ElevatedCard extends StatelessWidget {
     this.borderRadius,
     this.shadowColorHigh,
     this.shadowColorLow,
+    this.constraints,
+    this.alignment,
+    this.decoration,
+    this.foregroundDecoration,
+    this.width,
+    this.height,
+    this.margin,
+    this.transform,
+    this.transformAlignment,
+    this.clipBehavior,
   });
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: padding ?? EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-      // constraints: BoxConstraints(minHeight: 20),
+      constraints: constraints,
+      alignment: alignment,
+      // padding:,
+      // color: color,
+//  decoration:,
+      foregroundDecoration: foregroundDecoration,
+      width: width,
+      height: height,
+      // BoxConstraints? constraints:,
+      margin: margin,
+      transform: transform,
+      transformAlignment: transformAlignment,
+      // Widget? child,
+      clipBehavior: clipBehavior ?? Clip.none,
       decoration: BoxDecoration(
           color: color ?? Theme.of(context).colorScheme.surface,
           borderRadius: borderRadius ?? BorderRadius.circular(20),
@@ -271,24 +346,27 @@ class AssessmentCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      constraints: BoxConstraints(
-        // minHeight: 200,
-      // height: 400,
-        maxWidth: 100,
-      maxHeight: Breakpoints.mediumAndUp.isActive(context) ? 330 : 400,
-      ),
-      
-      margin: EdgeInsets.only(bottom: 20),
-      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      // constraints: BoxConstraints(
+      //   // minHeight: 200,
+      //   // height: 400,
+      //   maxWidth: 100,
+      //   maxHeight: Breakpoints.mediumAndUp.isActive(context) ? 330 : 400,
+      // ),
+
       child: ElevatedCard(
-        child: Container(
-          // constraints: BoxConstraints(
-          //   maxWidth: 100
-          // ),
-          width: 100,
-          clipBehavior: Clip.antiAlias,
-          decoration: BoxDecoration(
-            // color: Colors.amber
+        // constraints: BoxConstraints(minWidth: 300),
+        width: 200,
+        margin: EdgeInsets.fromLTRB(20, 40, 20, 20),
+        // padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Badge(
+          isLabelVisible: score != null ? true : false,
+          alignment: Alignment(.6, -0.6),
+          backgroundColor: Colors.transparent,
+          label: Icon(
+            Icons.check_circle_outline_rounded,
+            size: 50,
+            // color: Theme.of(context).colorScheme.primaryContainer,
+            color: Colors.green,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -305,110 +383,139 @@ class AssessmentCard extends StatelessWidget {
                       ),
                 ),
               ),
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      subject,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: Theme.of(context).colorScheme.secondary,
-                          ),
+              Text(
+                duration,
+                style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      // color: Theme.of(context).colorScheme.tertiary,
                     ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      "Due: $dueDate",
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            // color: Theme.of(context).colorScheme.tertiary,
-                          ),
-                    ),
-                  ],
-                ),
               ),
-              Container(
-              
-          constraints: BoxConstraints(maxWidth: 600),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  // mainAxisSize: MainAxisSize.min,
-                  // widthFactor: 1,
-                  // alignment: Alignment.centerRight,
-                  children: [Text(
-                    duration,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
-                          // color: Theme.of(context).colorScheme.tertiary,
-                        ),
-                  ),]
-                ),
-              ),
+              // Text(
+              //   subject,
+              //   style: Theme.of(context).textTheme.titleLarge?.copyWith(
+              //         fontWeight: FontWeight.w600,
+              //         color: Theme.of(context).colorScheme.secondary,
+              //       ),
+              // ),
+              // SizedBox(
+              //   height: 10,
+              // ),
+              // Text(
+              //   "Due: $dueDate",
+              //   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              //         fontWeight: FontWeight.w600,
+              //         // color: Theme.of(context).colorScheme.tertiary,
+              //       ),
+              // ),
+              Expanded(child: SizedBox()),
+              // Row(
+              //     mainAxisAlignment: MainAxisAlignment.end,
+              //     // mainAxisSize: MainAxisSize.min,
+              //     // widthFactor: 1,
+              //     // alignment: Alignment.centerRight,
+              //     children: [
+              //       Text(
+              //         duration,
+              //         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              //               fontWeight: FontWeight.w600,
+              //               // color: Theme.of(context).colorScheme.tertiary,
+              //             ),
+              //       ),
+              //     ]),
+
               SizedBox(
                 height: 15,
               ),
-              Breakpoints.mediumAndUp.isActive(context)
-                  ? ConstrainedBox(
-                    constraints: BoxConstraints(
-                      maxWidth: 600,
+              ConstrainedBox(
+                constraints: BoxConstraints(minWidth: 300),
+                child: Column(
+                  // shrinkWrap: true,
+                  // gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                  //   maxCrossAxisExtent: 300,
+                  //   mainAxisExtent: 45,
+                  //   mainAxisSpacing: 10,
+                  //   crossAxisSpacing: 10,
+                  // ),
+                  children: [
+                    //  Expanded(
+                    // child:
+                    FullOutlineButton(
+                        onPressed: onViewScore,
+                        text: "View Score",
+                        enabled: score != null ? true : false),
+                    // ),
+                    SizedBox(
+                      height: 10,
                     ),
-                    child: Row(mainAxisSize: MainAxisSize.min, children: [
-                        Expanded(
-                          child: FullOutlineButton(
-                              onPressed: onViewScore,
-                              text: "View Score",
-                              enabled: score == null ? true : false),
-                        ),
-                        SizedBox(
-                          width: 10,
-                        ),
-                        Expanded(
-                          child: FullButton(
-                              onPressed: onStart,
-                              text: "Start Quiz",
-                              enabled: score == null ? false : true),
-                        ),
-                      ]),
-                  )
-          
-                  // ? Row(children: [
-                  //     Expanded(
-                  //       child: FullOutlineButton(
-                  //         onPressed: onViewScore,
-                  //         text: "View Score",
-                  //       ),
-                  //     ),
-                  //     SizedBox(
-                  //       width: 10,
-                  //     ),
-                  //     Expanded(
-                  //       child: FullButton(
-                  //         onPressed: onStart,
-                  //         text: "Start Quiz",
-                  //       ),
-                  //     ),
-                  //   ])
-                  : Container(
-                      constraints: BoxConstraints(
-                        maxWidth: 800,
-                      ),
-                      child: Column(mainAxisSize: MainAxisSize.min, children: [
-                        FullOutlineButton(
-                            onPressed: onViewScore,
-                            text: "View Score",
-                            enabled: score == null ? true : false),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        FullButton(
-                            onPressed: onStart,
-                            text: "Start Quiz",
-                            enabled: score == null ? false : true),
-                      ]),
-                    ),
+                    // Expanded(
+                    // child:
+                    FullButton(
+                        onPressed: onStart,
+                        text: "Start Quiz",
+                        enabled: score != null ? false : true),
+                    // ),
+                  ],
+                ),
+              ),
+              // Breakpoints.mediumAndUp.isActive(context)
+              // ? ConstrainedBox(
+              //     constraints: BoxConstraints(
+              //       maxWidth: 600,
+              //     ),
+              //     child: Row(mainAxisSize: MainAxisSize.min, children: [
+              //       Expanded(
+              //         child: FullOutlineButton(
+              //             onPressed: onViewScore,
+              //             text: "View Score",
+              //             enabled: score == null ? true : false),
+              //       ),
+              //       SizedBox(
+              //         width: 10,
+              //       ),
+              //       Expanded(
+              //         child: FullButton(
+              //             onPressed: onStart,
+              //             text: "Start Quiz",
+              //             enabled: score == null ? false : true),
+              //       ),
+              //     ]),
+              //   )
+
+              // ? Row(children: [
+              //     Expanded(
+              //       child: FullOutlineButton(
+              //         onPressed: onViewScore,
+              //         text: "View Score",
+              //       ),
+              //     ),
+              //     SizedBox(
+              //       width: 10,
+              //     ),
+              //     Expanded(
+              //       child: FullButton(
+              //         onPressed: onStart,
+              //         text: "Start Quiz",
+              //       ),
+              //     ),
+              //   ])
+              // : Container(
+              //     constraints: BoxConstraints(
+              //       maxWidth: 800,
+              //     ),
+              //     child: Column(mainAxisSize: MainAxisSize.min, children: [
+              //       FullOutlineButton(
+              //           onPressed: onViewScore,
+              //           text: "View Score",
+              //           enabled: score == null ? true : false),
+              //       SizedBox(
+              //         height: 10,
+              //       ),
+              //       FullButton(
+              //           onPressed: onStart,
+              //           text: "Start Quiz",
+              //           enabled: score == null ? false : true),
+              //     ]),
+              //   ),
               SizedBox(
                 height: 20,
               ),
@@ -824,6 +931,77 @@ class _CreateMockCardState extends State<CreateMockCard> {
       //     onPressed: () {},
       //     icon: Icon(Icons.more_vert_rounded)),
       contentPadding: EdgeInsets.all(0),
+    );
+  }
+}
+
+class TopicCard extends StatelessWidget {
+  final String topic;
+  final int completed;
+  final int total;
+  final bool isActive;
+  final void Function()? onTap;
+  const TopicCard({
+    super.key,
+    required this.topic,
+    required this.completed,
+    required this.total,
+    required this.isActive,
+    this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return
+        // Container(
+        // clipBehavior: completed == total ? Clip.antiAlias : Clip.none,
+        // decoration: completed == total
+        //     ? BoxDecoration(color: Colors.green.shade50)
+        //     : null,
+        // child:
+        ListTile(
+      enabled: isActive,
+      onTap: isActive ? onTap : null,
+      // colo: Colors.green.shade500,
+      // selectedTileColor: Colors.green.shade500,
+      leading: isActive
+          ? completed == total
+              ? Icon(
+                  Icons.check_circle_outline_rounded,
+                  size: 50,
+                  // color: Theme.of(context).colorScheme.primaryContainer,
+                  color: Colors.green,
+                )
+              : Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 0, 5, 0),
+                  child: CircularProgressIndicator.adaptive(
+                    value: completed / total,
+                    strokeCap: StrokeCap.round,
+                    strokeWidth: 6,
+                    backgroundColor:
+                        Theme.of(context).colorScheme.surfaceContainer,
+                  ),
+                )
+          : Icon(
+              Icons.lock_outline_rounded,
+              size: 50,
+              // color: Theme.of(context).colorScheme.primaryContainer,
+              // color: Colors.error,
+            ),
+      title: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 0.0),
+        child: Text(
+          topic,
+          // style: Theme.of(context).textTheme.bodyLarge,
+        ),
+      ),
+
+      // isThreeLine: true,
+      // trailing: isActive?null:FullButton(text: "Unlock", onPressed: (){}),
+
+      contentPadding: EdgeInsets.fromLTRB(5, 10, 8, 10),
+      // titleAlignment: ListTileTitleAlignment.center,
+      // ),
     );
   }
 }

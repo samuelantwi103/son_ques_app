@@ -1,7 +1,9 @@
 // pages/student/assessments/assesment.dart
 import 'package:flutter/material.dart';
 import 'package:sonmit/components/card.dart';
+import 'package:sonmit/components/collapsible.dart';
 import 'package:sonmit/pages/student/assessments/quiz.dart';
+import 'package:sonmit/pages/student/assessments/topics.dart';
 import 'package:sonmit/services/callback.dart';
 import 'package:sonmit/services/transitions.dart';
 
@@ -58,6 +60,8 @@ class _AssesmentPageState extends State<AssesmentPage> {
 
     return Scaffold(
       body: CustomScrollView(
+        // center: Key("assessments"),
+
         slivers: [
           SliverAppBar(
             expandedHeight: 150.0,
@@ -99,71 +103,114 @@ class _AssesmentPageState extends State<AssesmentPage> {
           // ),
           // SliverConstrainedCrossAxis(
           //   maxExtent: 600,
-          //   sliver: 
-            SliverFillRemaining(
-              // hasScrollBody: false,
-              fillOverscroll: true,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(
-                  child: 
-                    Container(
-                      constraints: BoxConstraints(maxWidth: 600),
-                      child: ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: assessments.length,
-                        itemBuilder: (context, index) {
-                          Map<String, dynamic> assessment = assessments[index];
-                          // Please let the code end here
-                          // Everything needed has been provided here already
-                          return ConstrainedBox(
-                            constraints: BoxConstraints(maxWidth: 100),
-                            child: AssessmentCard(
-                              title: assessment["title"],
-                              subject: assessment["subject"],
-                              duration: assessment["duration"],
-                              score: assessment["score"]?.toDouble(),
-                              dueDate: assessment["dueDate"],
-                              onViewScore: () {
-                                Navigator.push(
-                                  context,
-                                  slideRightTransition(
-                                   QuizPage(
-                                      title: assessment["title"],
-                                      isChecking: true,
-                                    ),
-                                  ),
+          //   sliver:
+          // SliverFillRemaining(
+          //   child: ElevatedCard(child: SizedBox(
+          //     height:10,
+          //   )),
+          // ),
+          SliverPadding(
+            padding: const EdgeInsets.fromLTRB(25.0, 0, 25, 0),
+            sliver: SliverToBoxAdapter(
+              // maxExtent: 600,
+              // hasScrollBody: true,
+              // fillOverscroll: true,
+              child: Center(
+                child: CustomScrollView(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  slivers: [
+                    // SliverConstrainedCrossAxis(
+                    // maxExtent: 800,
+                    // sliver:
+                    SliverToBoxAdapter(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Subjects",
+                            style: Theme.of(context).textTheme.titleLarge,
+                          ),
+                          SizedBox(
+                            height: 30,
+                          ),
+                          ListView.separated(
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              itemBuilder: (context, index) {
+                                return ElevatedCollapsibleTile(
+                                    header: Text("Physics"),
+                                    content: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(15),
+                                        child: DebossedCard(
+                                            padding: EdgeInsets.all(0),
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            clipBehavior: Clip.antiAlias,
+
+                                            // color: Theme.of(context)
+                                            //     .colorScheme
+                                            //     .surfaceContainer,
+                                            child: ListView.separated(
+                                              shrinkWrap: true,
+                                              itemCount: 5,
+                                              physics:
+                                                  NeverScrollableScrollPhysics(),
+                                              itemBuilder: (context, index3) {
+                                                // final students = "quizzes[index2][]";
+                                                return TopicCard(
+                                                  topic:
+                                                      "Introduction to Physics",
+                                                  completed: index3 == 0 ||
+                                                          index3 == 1 ||
+                                                          index3 == 2
+                                                      ? index3 == 2
+                                                          ? 15
+                                                          : 20
+                                                      : 0,
+                                                  total: 20,
+                                                  isActive: index3 == 0 ||
+                                                      index3 == 1 ||
+                                                      index3 == 2 ||
+                                                      index3 == 3,
+                                                  onTap: () {
+                                                    Navigator.push(
+                                                        context,
+                                                        slideLeftTransition(
+                                                            AssesmentTopicPage()));
+                                                  },
+                                                );
+                                              },
+                                              separatorBuilder:
+                                                  (context, index) {
+                                                return Divider(
+                                                  height: 1,
+                                                );
+                                              },
+                                            )),
+                                      )
+                                    ]);
+                              },
+                              separatorBuilder: (context, index) {
+                                return SizedBox(
+                                  height: 30,
                                 );
                               },
-                              onStart: () {
-                                callDialog(
-                                    context: context,
-                                    content: Text(
-                                        "The session cannot be paused or restarted"),
-                                    title: "Start quiz?",
-                                    onConfirm: () {
-                                      Navigator.pop(context);
-                                      Navigator.push(
-                                        context,
-                                        slideLeftTransition(
-                                          QuizPage(
-                                            title: assessment["title"],
-                                          ),
-                                        ),
-                                      );
-                                    });
-                              },
-                            ),
-                          );
-                        },
+                              itemCount: 4),
+                          SizedBox(
+                            height: 50,
+                          )
+                        ],
                       ),
                     ),
-                  ),
+                    // )
+                  ],
                 ),
               ),
-            // ),
-          
+            ),
+          ),
+          // ),
         ],
       ),
     );
