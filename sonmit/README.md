@@ -1,6 +1,6 @@
-# sonmit
+# SONMIT
 
-A new Flutter project.
+An E-Learning Platform to prepare students for High School Exams.
 
 ## Getting Started
 

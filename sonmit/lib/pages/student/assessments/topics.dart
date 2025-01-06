@@ -58,135 +58,73 @@ class _AssesmentTopicPageState extends State<AssesmentTopicPage> {
     ];
 
     return Scaffold(
-      body: CustomScrollView(
-        // center: Key("assessments"),
-
-        slivers: [
-          SliverAppBar(
-            expandedHeight: 150.0,
-            pinned: true,
-            leading: CupertinoNavigationBarBackButton(),
-            flexibleSpace: FlexibleSpaceBar(
-              centerTitle: true,
-              title: Text(
-                "Introduction to Physics",
-                style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.secondary,
-                    ),
-              ),
-              // background: Image.asset(
-              //   'assets/books_1.jpeg',
-              //   fit: BoxFit.cover,
-              // ),
-            ),
-          ),
-          // SliverPadding(
-          //   padding: const EdgeInsets.fromLTRB(15.0, 15, 15, 0),
-          //   sliver: SliverToBoxAdapter(
-          //     child: Column(
-          //       crossAxisAlignment: CrossAxisAlignment.start,
-          //       children: [
-          //         SizedBox(height: 20),
-          //         Text(
-          //           "Mocks",
-          //           style: Theme.of(context).textTheme.headlineLarge?.copyWith(
-          //                 fontWeight: FontWeight.bold,
-          //                 color: Theme.of(context).colorScheme.secondary,
-          //               ),
-          //         ),
-          //         SizedBox(height: 20),
-          //       ],
+      appBar: AppBar(
+        leading: CupertinoNavigationBarBackButton(),
+        centerTitle: true,
+        title: Text(
+          "Introduction to Physics",
+          // style: Theme.of(context).textTheme.titleMedium?.copyWith(
+          //       fontWeight: FontWeight.bold,
+          //       color: Theme.of(context).colorScheme.secondary,
           //     ),
-          //   ),
-          // ),
-          // SliverConstrainedCrossAxis(
-          //   maxExtent: 600,
-          //   sliver:
-          // SliverFillRemaining(
-          //   child: ElevatedCard(child: SizedBox(
-          //     height:10,
-          //   )),
-          // ),
-          SliverPadding(
-            padding: const EdgeInsets.fromLTRB(15.0, 0, 15, 0),
-            sliver: SliverToBoxAdapter(
-              // maxExtent: 600,
-              // hasScrollBody: true,
-              // fillOverscroll: true,
-              child: Center(
-                child: CustomScrollView(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  slivers: [
-                    
-                    // SliverConstrainedCrossAxis(
-                    // maxExtent: 800,
-                    // sliver:
-                    SliverGrid.builder(
-            
-                      // physics: NeverScrollableScrollPhysics(),
-                      // shrinkWrap: true,
-                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                        maxCrossAxisExtent: 350,
-                        mainAxisExtent: 350,
-                        // mainAxisSpacing: 5,
-                        crossAxisSpacing: 2,
-            
-                        // childAspectRatio: 0.75
-                
-                      ),
-                      itemCount: assessments.length,
-                      itemBuilder: (context, index) {
-                        Map<String, dynamic> assessment = assessments[index];
-                        // Please let the code end here
-                        // Everything needed has been provided here already
-                        return AssessmentCard(
-                          title: assessment["title"],
-                          subject: assessment["subject"],
-                          duration: assessment["duration"],
-                          score: assessment["score"]?.toDouble(),
-                          dueDate: assessment["dueDate"],
-                          onViewScore: () {
-                            Navigator.push(
-                              context,
-                              slideRightTransition(
-                                QuizPage(
-                                  title: assessment["title"],
-                                  isChecking: true,
-                                ),
-                              ),
-                            );
-                          },
-                          onStart: () {
-                            callDialog(
-                                context: context,
-                                content: const Text(
-                                    "The session cannot be paused or restarted"),
-                                title: "Start quiz?",
-                                onConfirm: () {
-                                  Navigator.pop(context);
-                                  Navigator.push(
-                                    context,
-                                    slideLeftTransition(
-                                      QuizPage(
-                                        title: assessment["title"],
-                                      ),
-                                    ),
-                                  );
-                                });
-                          },
-                        );
-                      },
-                    ),
-                    // )
-                  ],
-                ),
-              ),
-            ),
+        ),
+      ),
+      body: Center(
+        child: GridView.builder(
+          padding: const EdgeInsets.fromLTRB(15.0, 0, 15, 20),
+          shrinkWrap: true,
+          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 350,
+            mainAxisExtent: 350,
+            // mainAxisSpacing: 5,
+            crossAxisSpacing: 2,
+
+            // childAspectRatio: 0.75
           ),
-          // ),
-        ],
+          itemCount: assessments.length,
+          itemBuilder: (context, index) {
+            Map<String, dynamic> assessment = assessments[index];
+            // Please let the code end here
+            // Everything needed has been provided here already
+            return AssessmentCard(
+              title: assessment["title"],
+              subject: assessment["subject"],
+              duration: assessment["duration"],
+              score: assessment["score"]?.toDouble(),
+              dueDate: assessment["dueDate"],
+              onViewScore: () {
+                Navigator.push(
+                  context,
+                  slideLeftTransition(
+                    QuizPage(
+                      title: assessment["title"],
+                      isChecking: true,
+                    ),
+                  ),
+                );
+              },
+              onStart: () {
+                callDialog(
+                    context: context,
+                    content:
+                        const Text("The session cannot be paused or restarted"),
+                    title: "Start quiz?",
+                    onConfirm: () {
+                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        slideLeftTransition(
+                          QuizPage(
+                            title: assessment["title"],
+                          ),
+                        ),
+                      );
+                    });
+              },
+            );
+          },
+        ),
+        // )
       ),
     );
   }

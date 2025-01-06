@@ -65,7 +65,8 @@ class _AdminQuizPageState extends State<AdminQuizPage> {
                                           "Force",
                                           "Acceleration"
                                         ],
-                                        "answer": 1
+                                        "answer": 1,
+                                        "explanation": "Mass cannot be expressed in terms of other quantities."
                                       });
                                 },
                                 separatorBuilder: (context, index) {

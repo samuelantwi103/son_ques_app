@@ -678,7 +678,7 @@ class MockCard extends StatelessWidget {
 
 class OptionTile extends StatelessWidget {
   final String option;
-  final String explanation;
+  final String? explanation;
   final bool isSelected;
   final bool isCorrect; // Add a property to track correctness
   bool isChecking;
@@ -706,24 +706,24 @@ class OptionTile extends StatelessWidget {
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(
               color: isChecking
-                  ? (!isCorrect
-                      ? isSelected
+                  ? isCorrect
+                      ? Colors.green.withOpacity(0.2)
+                      : isSelected
                           ? (isCorrect
                               ? Colors.green.withOpacity(0.2)
                               : Colors.red.withOpacity(0.2))
                           : Theme.of(context)
                               .colorScheme
                               .surfaceContainerHighest
-                      : Colors.green.withOpacity(0.2))
                   : isSelected
                       ? Theme.of(context).colorScheme.surfaceContainerHighest
                       : Theme.of(context).colorScheme.surfaceContainerLowest,
               border: Border.all(
-                color: !isChecking
-                    ? Theme.of(context).colorScheme.primary
-                    : isSelected
+                color: isChecking
+                    ? isSelected
                         ? (isCorrect ? Colors.green : Colors.red)
-                        : Colors.grey,
+                        : (isCorrect ? Colors.green : Colors.grey)
+                    : Theme.of(context).colorScheme.primary,
               ),
               borderRadius: BorderRadius.circular(10.0),
             ),
@@ -750,8 +750,8 @@ class OptionTile extends StatelessWidget {
               ],
             ),
           ),
-          if (isCorrect && isChecking) Text("Explanation: \n$explanation"),
-          if (isCorrect && isChecking)
+          if (isCorrect && isChecking && explanation!=null) Text("Explanation: \n$explanation"),
+          if (isCorrect && isChecking&& explanation!=null)
             SizedBox(
               height: 10,
             )
@@ -840,19 +840,36 @@ class QuestionQuizCard extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: answers["options"].asMap().entries.map<Widget>((entry) {
-              // Explicitly specify the Widget type
-              int index = entry.key;
-              String value = entry.value;
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children:
+                    answers["options"].asMap().entries.map<Widget>((entry) {
+                  // Explicitly specify the Widget type
+                  int index = entry.key;
+                  String value = entry.value;
 
-              return Text(
-                "${String.fromCharCode(65 + index)}. $value", // 'A', 'B', 'C', etc.
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    fontWeight: answers["answer"] == index
-                        ? FontWeight.bold
-                        : FontWeight.normal),
-              );
-            }).toList(), // Convert the mapped entries into a List<Widget>
+                  return Text(
+                    "${String.fromCharCode(65 + index)}. $value", // 'A', 'B', 'C', etc.
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        fontWeight: answers["answer"] == index
+                            ? FontWeight.bold
+                            : FontWeight.normal),
+                  );
+                }).toList(), // Convert the mapped entries into a List<Widget>
+              ),
+              SizedBox(
+                height: 10,
+              ),
+              Text(
+                "Explanation:",
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              Text(
+                answers["explanation"] ,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+            ],
           ),
         ),
         isThreeLine: true,
@@ -961,7 +978,7 @@ class TopicCard extends StatelessWidget {
         // child:
         ListTile(
       enabled: isActive,
-      onTap: isActive ? onTap : null,
+      onTap: onTap,
       // colo: Colors.green.shade500,
       // selectedTileColor: Colors.green.shade500,
       leading: isActive

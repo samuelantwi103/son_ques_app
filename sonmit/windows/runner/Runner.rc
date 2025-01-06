@@ -89,13 +89,13 @@ BEGIN
     BEGIN
         BLOCK "040904e4"
         BEGIN
-            VALUE "CompanyName", "com.son" "\0"
-            VALUE "FileDescription", "sonmit" "\0"
+            VALUE "CompanyName", "Scholar Opportunity Nexus (SON)" "\0"
+            VALUE "FileDescription", "SONMIT" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "sonmit" "\0"
-            VALUE "LegalCopyright", "Copyright (C) 2024 com.son. All rights reserved." "\0"
+            VALUE "InternalName", "SONMIT" "\0"
+            VALUE "LegalCopyright", "Copyright (C) 2025 Scholar Opportunity Nexus(SON) All rights reserved." "\0"
             VALUE "OriginalFilename", "sonmit.exe" "\0"
-            VALUE "ProductName", "sonmit" "\0"
+            VALUE "ProductName", "SONMIT" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

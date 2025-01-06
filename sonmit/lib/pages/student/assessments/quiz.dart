@@ -49,7 +49,7 @@ class _QuizPageState extends State<QuizPage> {
   double progress = 1.0; // Initial progress is full (1.0)
 
   // answers from user
-  bool isSubmitted = false;
+  bool? isSubmitted = false;
 
   bool isClosing = false;
 
@@ -57,7 +57,12 @@ class _QuizPageState extends State<QuizPage> {
   final List<Map<String, dynamic>> questions = [
     {
       "questionText": 'What is the capital of France?',
-      "options": ['Berlin', 'Madrid', 'Paris', 'Lisbon'],
+      "options": [
+        'Berlin',
+        'Madrid',
+        'Paris',
+        'Lisbon',
+      ],
       "correctAnswerIndex": 2, // Paris is the correct answer (index 2)
       "explanation":
           "Paris is located in France. It has iconic sites like the Eiffel Tower"
@@ -73,6 +78,17 @@ class _QuizPageState extends State<QuizPage> {
       "correctAnswerIndex": 1, // Mars is the correct answer (index 1)
       "explanation":
           "Mars is the fourth planet of the solar system. It's redness can be attributed to it's arid surface"
+    },
+    {
+      "questionText": 'Which planet is known as the Red Planet?',
+      "options": [
+        'Earth',
+        'Mars. Elon Musk favourite next stop for his ambitions',
+        'Jupiter',
+        'Saturn'
+      ],
+      "correctAnswerIndex": 1, // Mars is the correct answer (index 1)
+      "explanation": null
     },
     // Add more questions here...
   ];
@@ -90,9 +106,13 @@ class _QuizPageState extends State<QuizPage> {
   @override
   void initState() {
     super.initState();
-    url = "https://google.com";
+    // url = "https://google.com";
     selectedAnswers = widget.isChecking
-        ? [null, 'Mars. Elon Musk favourite next stop for his ambitions']
+        ? [
+            null,
+            'Mars. Elon Musk favourite next stop for his ambitions',
+            'Earth'
+          ]
         : List<String?>.filled(questions.length, null);
     if (widget.isChecking) isSubmitted = true;
     if (!kIsWeb) {
@@ -174,14 +194,17 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
         actions: widget.isChecking
-            ? null
+            ? [
+                Text("Score: 20"),
+                SizedBox(width: 10)
+              ]
             // : null,
             : [
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: CountdownTimer(
                     hours: 0,
-                    minutes: 1,
+                    minutes: 5,
                     onProgress: (timerProgress) {
                       setState(() {
                         progress = timerProgress;
@@ -257,16 +280,26 @@ class _QuizPageState extends State<QuizPage> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    if (selectedAnswers[questionIndex] == null &&
-                        widget.isChecking)
-                      Text(
-                        "No answers selected",
-                        style: GoogleFonts.dmSans(
-                          fontWeight: FontWeight.w600,
-                          // fontSize: 16,
-                          color: Theme.of(context).colorScheme.error,
-                        ),
-                      ),
+                    if (selectedAnswers[questionIndex] == null)
+                      widget.isChecking
+                          ? Text(
+                              "No answer selected",
+                              style: GoogleFonts.dmSans(
+                                fontWeight: FontWeight.w600,
+                                // fontSize: 16,
+                                color: Theme.of(context).colorScheme.error,
+                              ),
+                            )
+                          : isSubmitted == null
+                              ? Text(
+                                  "*Required",
+                                  style: GoogleFonts.dmSans(
+                                    fontWeight: FontWeight.w600,
+                                    // fontSize: 16,
+                                    color: Theme.of(context).colorScheme.error,
+                                  ),
+                                )
+                              : SizedBox(),
                     // const SizedBox(height: 10),
                     Column(
                       children: questions[questionIndex]["options"]
@@ -288,13 +321,13 @@ class _QuizPageState extends State<QuizPage> {
                           explanation: questions[questionIndex]["explanation"],
                           isSelected: selectedAnswers[questionIndex] == option,
                           // bool indicates if selected option is correct(becomes active only when submitted)
-                          isCorrect: isSubmitted && isCorrect,
+                          isCorrect: (isSubmitted ?? false) && isCorrect,
                           // when user is checking for results
                           isChecking: widget.isChecking,
 
                           // when an option is tapped
                           onTap: () {
-                            if (!isSubmitted) {
+                            if (!(isSubmitted ?? false)) {
                               // setState(() {
                               selectedAnswers[questionIndex] = option;
                               // debugPrint("Option: $option");
@@ -320,7 +353,9 @@ class _QuizPageState extends State<QuizPage> {
             itemCount: questions.length,
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.sizeOf(context).width * 0.05,
+            ),
             child: widget.isChecking
                 ? null
                 // : SizedBox(
@@ -332,30 +367,38 @@ class _QuizPageState extends State<QuizPage> {
                 //     child: CustomWebView(url: url),
                 //   )
                 : Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: FullButton(
+                    padding: const EdgeInsets.all(8.0),
+                    child: FullButton(
                       onPressed: () {
-                        callDialog(
-                            context: context,
-                            content: Text(
-                                "You cannot edit your responses after this is done"),
-                            title: "Complete quiz",
-                            onConfirm: () {
-                              
-                              setState(() {
-                                isSubmitted = true; // Mark quiz as submitted
+                        debugPrint(selectedAnswers.toString());
+                        if (!selectedAnswers.contains(null)) {
+                          callDialog(
+                              context: context,
+                              content: Text(
+                                  "You cannot edit your responses after this is done"),
+                              title: "Complete quiz",
+                              onConfirm: () {
+                                setState(() {
+                                  isSubmitted = true; // Mark quiz as submitted
+                                });
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(content: Text("Submitted")));
                               });
-                              Navigator.pop(context);
-                              Navigator.pop(context);
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text("Submitted")));
-                            });
+                        } else {
+                          setState(() {
+                            isSubmitted = null;
+                          });
+                          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text("Please answer all questions")));
+                        }
                       },
                       text: 'Submit',
                     ),
-                ),
+                  ),
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 30),
         ]),
       ),
       // if (isSubmitted) // Show score after submission
@@ -377,8 +420,9 @@ class _QuizPageState extends State<QuizPage> {
 
       floatingActionButton: widget.isChecking
           ? FloatingActionButton.extended(
+              icon: Icon(Icons.help_outline),
               onPressed: () {},
-              label: Text("Score: 20"),
+              label: Text("Need help?"),
             )
           : null,
       // )
