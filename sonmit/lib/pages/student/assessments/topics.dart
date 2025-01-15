@@ -2,6 +2,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sonmit/components/card.dart';
+import 'package:sonmit/pages/student/assessments/chat.dart';
 import 'package:sonmit/pages/student/assessments/quiz.dart';
 import 'package:sonmit/services/callback.dart';
 import 'package:sonmit/services/transitions.dart';
@@ -69,62 +70,78 @@ class _AssesmentTopicPageState extends State<AssesmentTopicPage> {
           //     ),
         ),
       ),
-      body: Center(
-        child: GridView.builder(
-          padding: const EdgeInsets.fromLTRB(15.0, 0, 15, 20),
-          shrinkWrap: true,
-          gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-            maxCrossAxisExtent: 350,
-            mainAxisExtent: 350,
-            // mainAxisSpacing: 5,
-            crossAxisSpacing: 2,
+      body: GridView.builder(
+        padding: const EdgeInsets.fromLTRB(15.0, 0, 15, 20),
+        shrinkWrap: true,
+        gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+          maxCrossAxisExtent: 350,
+          mainAxisExtent: 100,
+          // mainAxisSpacing: 5,
+          crossAxisSpacing: 2,
 
-            // childAspectRatio: 0.75
-          ),
-          itemCount: assessments.length,
-          itemBuilder: (context, index) {
-            Map<String, dynamic> assessment = assessments[index];
-            // Please let the code end here
-            // Everything needed has been provided here already
-            return AssessmentCard(
-              title: assessment["title"],
-              subject: assessment["subject"],
-              duration: assessment["duration"],
-              score: assessment["score"]?.toDouble(),
-              dueDate: assessment["dueDate"],
-              onViewScore: () {
-                Navigator.push(
-                  context,
-                  slideLeftTransition(
-                    QuizPage(
-                      title: assessment["title"],
-                      isChecking: true,
-                    ),
-                  ),
-                );
-              },
-              onStart: () {
-                callDialog(
-                    context: context,
-                    content:
-                        const Text("The session cannot be paused or restarted"),
-                    title: "Start quiz?",
-                    onConfirm: () {
-                      Navigator.pop(context);
-                      Navigator.push(
-                        context,
-                        slideLeftTransition(
-                          QuizPage(
-                            title: assessment["title"],
-                          ),
-                        ),
-                      );
-                    });
-              },
-            );
-          },
+          // childAspectRatio: 0.75
         ),
-        // )
+        itemCount: assessments.length,
+        itemBuilder: (context, index) {
+          Map<String, dynamic> assessment = assessments[index];
+          // Please let the code end here
+          // Everything needed has been provided here already
+          return AssessmentCard(
+            title: assessment["title"],
+            subject: assessment["subject"],
+            duration: assessment["duration"],
+            score: assessment["score"]?.toDouble(),
+            dueDate: assessment["dueDate"],
+            onViewScore: () {
+              Navigator.push(
+                context,
+                slideLeftTransition(
+                  QuizPage(
+                    title: assessment["title"],
+                    isChecking: true,
+                  ),
+                ),
+              );
+            },
+            onStart: () {
+              callDialog(
+                  context: context,
+                  content: const Text(
+                      "This quiz will cost 4 SONMIT Points. Continue?"),
+                  title: "Start quiz?",
+                  onConfirm: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      slideLeftTransition(
+                        QuizPage(
+                          title: assessment["title"],
+                        ),
+                      ),
+                    );
+                  });
+            },
+            onRetake: () {
+              callDialog(
+                  context: context,
+                  content: const Text("You have 4 tries left."),
+                  title: "Retake quiz?",
+                  onConfirm: () {
+                    Navigator.pop(context);
+                    Navigator.push(
+                      context,
+                      slideLeftTransition(
+                        QuizPage(
+                          title: assessment["title"],
+                        ),
+                      ),
+                    );
+                  });
+            },
+            onChat: () =>
+                Navigator.push(context, slideLeftTransition(ChatPage())),
+          );
+        },
       ),
     );
   }

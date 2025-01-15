@@ -135,7 +135,7 @@ class ElevatedCard extends StatelessWidget {
   final AlignmentGeometry? alignment;
   // final EdgeInsetsGeometry? padding;
   // final Color? color;
-  final Decoration? decoration;
+  // final Decoration? decoration;
   final Decoration? foregroundDecoration;
   final double? width;
   final double? height;
@@ -156,7 +156,7 @@ class ElevatedCard extends StatelessWidget {
     this.shadowColorLow,
     this.constraints,
     this.alignment,
-    this.decoration,
+    // this.decoration,
     this.foregroundDecoration,
     this.width,
     this.height,
@@ -323,7 +323,7 @@ class ResultAnnouncementCard extends StatelessWidget {
   }
 }
 
-class AssessmentCard extends StatelessWidget {
+class TestAssessmentCard extends StatelessWidget {
   String title;
   String subject;
   String duration;
@@ -332,7 +332,7 @@ class AssessmentCard extends StatelessWidget {
   void Function() onViewScore;
   void Function() onStart;
 
-  AssessmentCard({
+  TestAssessmentCard({
     super.key,
     required this.title,
     required this.subject,
@@ -523,6 +523,73 @@ class AssessmentCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class AssessmentCard extends StatelessWidget {
+  String title;
+  String subject;
+  String duration;
+  double? score;
+  String dueDate;
+  void Function() onViewScore;
+  void Function() onStart;
+  void Function() onRetake;
+  void Function() onChat;
+
+  AssessmentCard({
+    super.key,
+    required this.title,
+    required this.subject,
+    required this.duration,
+    required this.score,
+    required this.dueDate,
+    required this.onViewScore,
+    required this.onStart,
+    required this.onRetake,
+    required this.onChat,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedCard(
+      // constraints: BoxConstraints(minWidth: 300),
+      width: 200,
+      // height: 10,
+      margin: EdgeInsets.fromLTRB(5, 20, 5, 10),
+      padding: EdgeInsets.symmetric(horizontal: 5, vertical: 0),
+      child: ListTile(
+        contentPadding: EdgeInsets.all(0),
+        // minTileHeight: 400,
+          leading: score != null
+              ? Icon(
+                  Icons.check_circle_outline_rounded,
+                  size: 50,
+                  // color: Theme.of(context).colorScheme.primaryContainer,
+                  color: Colors.green,
+                )
+              : SizedBox(width: 20,),
+          title: Text(
+            title,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).colorScheme.primary,
+                ),
+          ),
+          onTap: score == null ? onStart : null,
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton.outlined(
+                  onPressed: onChat, icon: Icon(Icons.chat_rounded)),
+              IconButton.outlined(
+                  onPressed: onViewScore, icon: Icon(Icons.assignment)),
+              IconButton.outlined(
+                  onPressed: onRetake, icon: Icon(Icons.replay_rounded)),
+            ],
+          ),
+          ),
     );
   }
 }
@@ -750,8 +817,9 @@ class OptionTile extends StatelessWidget {
               ],
             ),
           ),
-          if (isCorrect && isChecking && explanation!=null) Text("Explanation: \n$explanation"),
-          if (isCorrect && isChecking&& explanation!=null)
+          if (isCorrect && isChecking && explanation != null)
+            Text("Explanation: \n$explanation"),
+          if (isCorrect && isChecking && explanation != null)
             SizedBox(
               height: 10,
             )
@@ -866,7 +934,7 @@ class QuestionQuizCard extends StatelessWidget {
                 style: Theme.of(context).textTheme.bodySmall,
               ),
               Text(
-                answers["explanation"] ,
+                answers["explanation"],
                 style: Theme.of(context).textTheme.bodySmall,
               ),
             ],

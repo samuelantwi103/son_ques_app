@@ -14,9 +14,15 @@ class FormTextField extends StatefulWidget {
   void Function(String value)? onChanged;
   FormFieldValidator<String>? validator;
   int? maxLength;
+  int? maxlines;
+  int? minlines;
   final bool filled;
   List<TextInputFormatter>? inputFormatters;
   final Color? filledColor;
+  void Function(String value)? onFieldSubmitted;
+  bool autofocus;
+  FocusNode? focusNode;
+  void Function(PointerDownEvent)? onTapOutside;
 
   FormTextField({
     super.key,
@@ -29,9 +35,15 @@ class FormTextField extends StatefulWidget {
     this.keyboardType,
     this.validator,
     this.maxLength,
+    this.maxlines,
+    this.minlines,
     this.inputFormatters,
     this.filled = false,
     this.filledColor,
+    this.onFieldSubmitted,
+    this.autofocus = false,
+    this.focusNode,
+    this.onTapOutside,
   });
 
   @override
@@ -43,20 +55,29 @@ class _FormTextFieldState extends State<FormTextField> {
   Widget build(BuildContext context) {
     return TextFormField(
       key: widget.key,
-      onTapOutside: (event) => FocusScope.of(context).unfocus(),
+      autofocus: widget.autofocus,
+      focusNode: widget.focusNode,
+      onTapOutside:widget.onTapOutside??(event) => FocusScope.of(context).unfocus(),
+      maxLines: widget.maxlines,
+      minLines: widget.minlines,
       onChanged: widget.onChanged,
       autovalidateMode: AutovalidateMode.onUserInteraction,
+      
+      onFieldSubmitted: widget.onFieldSubmitted,
+      textInputAction: TextInputAction.done,
       controller: widget.controller,
       validator: widget.validator,
       obscureText: widget.obscureText,
       keyboardType: widget.keyboardType,
       maxLength: widget.maxLength,
+      
       inputFormatters: widget.inputFormatters,
       decoration: InputDecoration(
         // labelText: "Password",
         filled: widget.filled,
         fillColor: widget.filledColor,
         hintText: widget.hintText,
+        
         // filled: true,
         counter: const SizedBox(
           height: 0,
@@ -163,11 +184,17 @@ class _ElevatedFormTextFieldState extends State<ElevatedFormTextField> {
           inputFormatters: widget.inputFormatters,
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(color: Color.fromARGB(255, 122, 51, 0),),),
+              borderRadius: BorderRadius.circular(30),
+              borderSide: BorderSide(
+                color: Color.fromARGB(255, 122, 51, 0),
+              ),
+            ),
             focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(30),
-                borderSide: BorderSide(color: Color(0xFFFFF1E7),),),
+              borderRadius: BorderRadius.circular(30),
+              borderSide: BorderSide(
+                color: Color(0xFFFFF1E7),
+              ),
+            ),
             // labelText: "Password",
             filled: widget.filled,
             fillColor: widget.filledColor,

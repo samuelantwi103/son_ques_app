@@ -12,6 +12,7 @@ import 'package:sonmit/components/button.dart';
 import 'package:sonmit/components/card.dart';
 import 'package:sonmit/components/progress_indicator.dart';
 import 'package:sonmit/components/timer.dart';
+import 'package:sonmit/pages/student/assessments/chat.dart';
 // import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 // import 'package:sonmit/components/webview.dart';
 import 'package:sonmit/services/callback.dart';
@@ -29,6 +30,7 @@ import 'package:sonmit/services/callback.dart';
 // import 'package:sonmit/components/timer.dart';
 // import 'package:sonmit/services/callback.dart';
 import 'package:sonmit/services/flags.dart';
+import 'package:sonmit/services/transitions.dart';
 // import 'package:sonmit/services/flags.dart';
 
 class QuizPage extends StatefulWidget {
@@ -116,7 +118,7 @@ class _QuizPageState extends State<QuizPage> {
         : List<String?>.filled(questions.length, null);
     if (widget.isChecking) isSubmitted = true;
     if (!kIsWeb) {
-      if (Platform.isAndroid) disableFlags();
+      if (Platform.isAndroid && !widget.isChecking) disableFlags();
     }
     if (widget.isChecking) isClosing = true;
 
@@ -126,7 +128,7 @@ class _QuizPageState extends State<QuizPage> {
   @override
   void dispose() {
     if (!kIsWeb) {
-      if (Platform.isAndroid) enableFlags();
+      if (Platform.isAndroid  && !widget.isChecking) enableFlags();
     }
     super.dispose();
   }
@@ -194,10 +196,7 @@ class _QuizPageState extends State<QuizPage> {
           ),
         ),
         actions: widget.isChecking
-            ? [
-                Text("Score: 20"),
-                SizedBox(width: 10)
-              ]
+            ? [Text("Score: 20"), SizedBox(width: 10)]
             // : null,
             : [
                 Padding(
@@ -345,7 +344,25 @@ class _QuizPageState extends State<QuizPage> {
                         );
                       }).toList(),
                     ),
-                    const SizedBox(height: 20),
+                    // const SizedBox(height: 2),
+                    Align(
+                      alignment: Alignment.centerRight,
+                      child: TextButton(
+                        child: Text(
+                          "Need help with this question?",
+                          style: TextStyle(
+                            decoration: TextDecoration.underline,
+                            decorationColor:
+                                Theme.of(context).colorScheme.primary,
+                          ),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                              context, slideLeftTransition(ChatPage()));
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 10),
                   ],
                 ),
               );
@@ -418,13 +435,13 @@ class _QuizPageState extends State<QuizPage> {
       //     ),
       //   ),
 
-      floatingActionButton: widget.isChecking
-          ? FloatingActionButton.extended(
-              icon: Icon(Icons.help_outline),
-              onPressed: () {},
-              label: Text("Need help?"),
-            )
-          : null,
+      // floatingActionButton: widget.isChecking
+      //     ? FloatingActionButton.extended(
+      //         icon: Icon(Icons.help_outline),
+      //         onPressed: () {},
+      //         label: Text("Need help?"),
+      //       )
+      //     : null,
       // )
     );
   }
